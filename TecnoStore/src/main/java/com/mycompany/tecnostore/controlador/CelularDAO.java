@@ -20,7 +20,7 @@ public class CelularDAO implements IntGestionarCelulares{
     @Override
     public void registrarC(Celular celular) {
         
-        String sql = "insert into Cliente(marca, modelo, sistema_operativo, gama, precio, stock VALUES(?,?,?,?,?,?))";
+        String sql = "insert into Celulares(marca, modelo, sistema_operativo, gama, precio, stock VALUES(?,?,?,?,?,?))";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql) ){
             
