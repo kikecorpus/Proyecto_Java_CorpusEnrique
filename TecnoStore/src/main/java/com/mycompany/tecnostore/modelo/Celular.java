@@ -1,14 +1,101 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.tecnostore.modelo;
 
 /**
- *
- * @author kikecorpus
+celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
+
  */
 public class Celular {
-    
+    private int id;
+    private String marca;
+    private String modelo;
+    private String sistema_operativo;
+    private CategoriaGama gama;
+    private double precio;
+    private String stock;
+
+    public Celular(int id, String marca, String modelo, String sistema_operativo, CategoriaGama  gama, double precio, String stock) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.sistema_operativo = sistema_operativo;
+        this.gama = gama;
+        this.precio = precio;
+        this.stock = stock;
+    }
+
+    public Celular() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getSistema_operativo() {
+        return sistema_operativo;
+    }
+
+    public void setSistema_operativo(String sistema_operativo) {
+        this.sistema_operativo = sistema_operativo;
+    }
+
+    public CategoriaGama  getGama() {
+        return gama;
+    }
+
+    public void setGama(CategoriaGama  gama) {
+        this.gama = gama;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
+
+     @Override
+    public String toString() {
+         return """
+               *****************************
+               Id:          %s
+               Marca:      %s
+               Modelo:   %s
+               Sistema operativo: %s
+               Gama:    %s
+               Precio:  %s
+                Stock: %s
+             
+               """.formatted(id,marca, modelo,sistema_operativo,gama,precio,stock);
+    }
     
 }
