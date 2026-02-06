@@ -18,7 +18,7 @@ public class Venta {
         this.total = total;
     }
     
-    //COntructor vacio para sql 
+    //Contructor vacio para sql 
     public Venta() {
     }
     

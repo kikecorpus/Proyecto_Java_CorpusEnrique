@@ -31,6 +31,7 @@ public class Cliente {
         this.telefono = telefono;
     }
 
+    // getter and setter 
     public int getId() {
         return id;
     }
@@ -78,7 +79,7 @@ public class Cliente {
                Id:          %s
                Nombre:      %s
                Identificacion:   %s
-                Correo: %s
+               Correo: %s
                Telefono:    %s
                
                """.formatted(id,nombre, identificacion, correo,telefono);

@@ -10,11 +10,12 @@ public class Celular {
     private String marca;
     private String modelo;
     private String sistema_operativo;
-    private CategoriaGama gama;
+    private CategoriaGama gama; // inyeccion de de enum 
     private double precio;
-    private String stock;
+    private int stock;
 
-    public Celular(int id, String marca, String modelo, String sistema_operativo, CategoriaGama  gama, double precio, String stock) {
+    
+    public Celular(int id, String marca, String modelo, String sistema_operativo, CategoriaGama  gama, double precio, int stock) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
@@ -23,10 +24,13 @@ public class Celular {
         this.precio = precio;
         this.stock = stock;
     }
-
+    
+    //constructor para sql 
     public Celular() {
     }
 
+    
+    //getter and setter 
     public int getId() {
         return id;
     }
@@ -75,14 +79,15 @@ public class Celular {
         this.precio = precio;
     }
 
-    public String getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
+    // to string 
      @Override
     public String toString() {
          return """

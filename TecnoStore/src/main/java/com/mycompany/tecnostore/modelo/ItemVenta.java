@@ -6,8 +6,8 @@ package com.mycompany.tecnostore.modelo;
  */
 public class ItemVenta {
     private int id;
-    private Venta id_venta;
-    private Celular id_celular;
+    private Venta id_venta; //inteccion de dependencias para poder imprimir y obtener 
+    private Celular id_celular; //el objeto completo o si deseo extraer solo el id 
     private int cantidad;
     private double subtotal;
 
@@ -19,8 +19,11 @@ public class ItemVenta {
         this.subtotal = subtotal;
     }
 
+    //contructor vacio
     public ItemVenta() {
     }
+    
+    //getter and setter
 
     public int getId() {
         return id;
