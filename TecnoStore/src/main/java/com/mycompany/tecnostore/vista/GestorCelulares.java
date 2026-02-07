@@ -17,7 +17,7 @@ public class GestorCelulares  {
     
     //menus
     
-    public  void menuRegistrarCelular(){
+    public  void registrarCelular(){
         
         // inicializar celular a llenar
         Celular cel = new Celular(); 
@@ -37,8 +37,8 @@ public class GestorCelulares  {
         System.out.println("2. Media");
         System.out.println("3. Alta");
         
-        int opG = new Scanner(System.in).nextInt();
-        CategoriaGama gama;
+        int opG = Validador.validateMenu(1, 3, "");
+        CategoriaGama gama = null;
         switch (opG) {
             case 1:
                 gama = CategoriaGama.Baja;
@@ -49,9 +49,6 @@ public class GestorCelulares  {
             case 3:
                 gama = CategoriaGama.Alta;
                 break;
-            default:
-                System.out.println("Opción inválida");
-                return;
         }
 
         System.out.println("\nIngrese el precio");
@@ -74,9 +71,9 @@ public class GestorCelulares  {
         c.registrarC(cel);
     }
     
-    public void menuActualizarCelular(){
+    public void actualizarCelular(){
        
-        Celular cel =  menuBuscarCelular();
+        Celular cel =  buscarCelular();
         
         Celular celBefore = (Celular) cel.clone(); // toca castear porque el .clone devuelve un object
         
@@ -97,7 +94,7 @@ public class GestorCelulares  {
         System.out.println("2. Media");
         System.out.println("3. Alta");
         
-        int opG = new Scanner(System.in).nextInt();
+        int opG = Validador.validateMenu(1, 3, "");
         CategoriaGama gama;
         switch (opG) {
             case 1:
@@ -134,16 +131,17 @@ public class GestorCelulares  {
         
     }
     
-    public Celular menuBuscarCelular(){
+    public Celular buscarCelular(){
         System.out.println("\nIngrese Id del celular");
         int id = new Scanner(System.in).nextInt();
         Celular cel= c.buscar(id);
+        System.out.println(cel);
          return cel;
     }
     
-    public void menuEliminar(){
+    public void eliminarCelular(){
         
-        Celular cel = menuBuscarCelular();
+        Celular cel = buscarCelular();
         
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -154,7 +152,7 @@ public class GestorCelulares  {
                 System.out.println("***** No se elimino el celular *****");}
     }
     
-    public void menuListarCelular(){
+    public void listarCelular(){
         
         ArrayList<Celular> celulares =  c.listarC();
         

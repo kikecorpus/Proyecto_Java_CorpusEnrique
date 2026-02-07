@@ -1,6 +1,8 @@
 
 package com.mycompany.tecnostore.vista;
 
+import com.mycompany.tecnostore.controlador.Validador;
+
 
 
 public class TecnoStore {
@@ -13,18 +15,8 @@ public class TecnoStore {
     */
     
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         
-        GestorCelulares gc = new  GestorCelulares();
-        
-        
-       gc.menuRegistrarCelular();
-        
- //       gc.menuActualizarCelular();
-        
- //       gc.menuEliminar();
- 
- //       gc.menuListarCelular();
-    
+        PrincipalMenu.menuPrincipal();
+
     }
 }

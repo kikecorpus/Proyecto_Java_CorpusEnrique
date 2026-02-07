@@ -1,0 +1,45 @@
+
+package com.mycompany.tecnostore.vista;
+
+import com.mycompany.tecnostore.controlador.GestorClientes;
+import com.mycompany.tecnostore.controlador.GestorVentas;
+import com.mycompany.tecnostore.controlador.Validador;
+
+
+public class GestorMain {
+    
+    GestorCelulares gCel = new  GestorCelulares();
+    //GestorClientes gClient = new  GestorClientes();
+    //GestorVentas gVent = new  GestorVentas();
+        
+    public  void menuCelular(){
+        int opC;
+        do{
+            System.out.println("""
+
+                               =============================
+                               ********* Celulares *********
+                               =============================
+                               1.   Registrar Celular.
+                               2.   Actualizar Celular.
+                               3.   Eliminar Celular.
+                               4.   Listar Celulares.
+                               5.   Buscar Celular por Id.
+                               6.   Regresar
+
+                               =============================
+                               """);
+           opC = Validador.validateMenu(1, 6, "Ingrese la opcion que desea:");
+
+           switch(opC){
+               case 1 -> {gCel.registrarCelular();}
+               case 2 -> {gCel.actualizarCelular();}
+               case 3 -> {gCel.eliminarCelular(); }
+               case 4 -> {gCel.listarCelular();}
+               case 5 -> {gCel.buscarCelular();}
+               case 6 -> {}
+           }
+        }while(opC != 6);
+    }
+    
+}

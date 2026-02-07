@@ -6,16 +6,12 @@ import java.util.Scanner;
 
 public class Validador {
     
-    public static int validateOptions(){
-        
-        return 0;
-    };
-    
+    // Validaciones Celular
     public static double validatePositiveDouble(double valor){
         
         while(valor< 0){
             
-            System.out.println("\n Solo se admiten valores positivos. \nIngrese nuevamente el valor: ");
+            System.out.println("\n***** Solo se admiten valores positivos. ***** \nIngrese nuevamente el valor: ");
             valor = new Scanner(System.in).nextDouble();
             return valor ;
         }
@@ -27,7 +23,7 @@ public class Validador {
         
         while(valor< 0){
             
-            System.out.println("\n Solo se admiten valores positivos. \nIngrese nuevamente el valor: ");
+            System.out.println("\n***** Solo se admiten valores positivos. ***** \nIngrese nuevamente el valor: ");
             valor = new Scanner(System.in).nextInt();
             
             return valor ;
@@ -35,5 +31,32 @@ public class Validador {
         
         return valor;
     }
+    
+    // Validaciones Menu
+    
+    public static int validateMenu(int minV,int maxV, String mensaje){
+        
+        int op = 0;
+        try{
+ 
+            System.out.println(mensaje);
+        
+           op = new Scanner(System.in).nextInt(); 
+            
+            while (op>maxV || op<minV){
+            
+            System.out.println("Ingresa una opcion valida");
+            op = new Scanner(System.in).nextInt(); 
+            }
+            
+             return op;
+            
+        }catch (Exception e) {
+                 System.out.println("**** Solo se admiten numeros ****");
+                }  
+        return op;
+        
+        }
+    
     
 }
