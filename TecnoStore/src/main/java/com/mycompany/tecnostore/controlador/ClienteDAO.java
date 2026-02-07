@@ -4,10 +4,112 @@
  */
 package com.mycompany.tecnostore.controlador;
 
-/**
- *
- * @author kikecorpus
- */
-public class ClienteDAO {
+import com.mycompany.tecnostore.modelo.CategoriaGama;
+import com.mycompany.tecnostore.modelo.Cliente;
+import com.mycompany.tecnostore.modelo.Cliente;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+
+public class ClienteDAO implements IntGestionarClientes{
+    
+    ConexionDb con = new ConexionDb();
+    Connection conexion = con.conectar();
+    
+    @Override
+    public void registrarCl(Cliente cliente) {
+        String sql = "INSERT INTO cliente(nombre, identificacion, correo, telefono) VALUES(?,?,?,?)";
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
+            
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getIdentificacion());
+            stmt.setString(3, cliente.getCorreo());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.executeUpdate();
+            
+            // obtener id
+            // con getGeneratedKeys puedo obtener el id generado en el statement
+            // solo funciona con inserciones
+           ResultSet rs = stmt.getGeneratedKeys(); 
+           if (rs.next()) {
+               cliente.setId(rs.getInt(1));
+           }
+            System.out.println("****** Registro exitoso ******");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
+    }
+
+    @Override
+    public void actualizarCl(Cliente cliente, int id) {
+        String sql = "UPDATE Cliente SET nombre=?, identificacion=?, correo=?, telefono=?  WHERE id=?";
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            cliente.setId(id);
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getIdentificacion());
+            stmt.setString(3, cliente.getCorreo());
+            stmt.setObject(4, cliente.getTelefono());  
+            stmt.setInt(5, id); 
+            
+            stmt.executeUpdate();// activa el codigo sql
+
+            System.out.println(cliente);
+            System.out.println("****** Actualizacion exitosa ******");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void eliminarCl(int id) {
+        String sql = "DELETE FROM Cliente where id=?";
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }    }
+
+    @Override
+    public ArrayList<Cliente> listarCl() {
+         String sql = "SELECT * FROM Cliente";
+        
+        ArrayList<Cliente> clientes = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+               
+                Cliente cliente = new Cliente(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5) );
+                
+                clientes.add(cliente);
+            
+            }
+            return clientes;
+        
+        } catch (SQLException ex) {
+            System.getLogger(CelularDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        return clientes;
+    }
+    
     
 }

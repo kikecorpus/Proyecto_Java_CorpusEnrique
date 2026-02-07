@@ -1,8 +1,6 @@
 
 package com.mycompany.tecnostore.vista;
 
-import com.mycompany.tecnostore.controlador.GestorClientes;
-import com.mycompany.tecnostore.controlador.GestorVentas;
 import com.mycompany.tecnostore.controlador.Validador;
 
 

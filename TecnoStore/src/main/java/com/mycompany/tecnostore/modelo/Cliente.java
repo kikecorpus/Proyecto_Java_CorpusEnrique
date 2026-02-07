@@ -17,19 +17,20 @@ public class Cliente {
     private String telefono;
 
       
-    
-    // constructor vacio 
-    public Cliente() {
-    }
-    
-     // Constructor completo (para SELECT)
-    public Cliente(int id, String nombre, String apellido, String identificacion, String correo, String telefono) {
+    // Constructor completo (para SELECT)
+    public Cliente(int id, String nombre, String apellido, String identificacion, String correo) {
         this.id = id;
         this.nombre = nombre;
         this.identificacion = identificacion;
         this.correo = correo;
         this.telefono = telefono;
     }
+    
+    // constructor vacio 
+    public Cliente() {
+    }
+    
+  
 
     // getter and setter 
     public int getId() {
