@@ -5,7 +5,7 @@ package com.mycompany.tecnostore.modelo;
 celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
 
  */
-public class Celular {
+public class Celular implements Cloneable{
     private int id;
     private String marca;
     private String modelo;
@@ -23,12 +23,28 @@ public class Celular {
         this.gama = gama;
         this.precio = precio;
         this.stock = stock;
+       
     }
     
     //constructor para sql 
     public Celular() {
     }
 
+    // Patron de diseño Prototype
+    @Override
+    public Object clone(){
+        
+        Celular cloneCelular = new Celular();
+        cloneCelular.setId(this.id);
+        cloneCelular.setMarca(this.marca);
+        cloneCelular.setModelo(this.modelo);
+        cloneCelular.setSistema_operativo(this.sistema_operativo);
+        cloneCelular.setGama(this.gama);
+        cloneCelular.setPrecio(this.precio);
+        cloneCelular.setStock(this.stock);
+        
+        return cloneCelular;
+    }
     
     //getter and setter 
     public int getId() {

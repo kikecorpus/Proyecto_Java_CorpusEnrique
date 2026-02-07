@@ -18,9 +18,11 @@ public class TecnoStore {
         
         GestorCelulares gc = new  GestorCelulares();
         
-        gc.menuRegistrarCelular();
+ //       gc.menuRegistrarCelular();
         
+ //       gc.menuActualizarCelular();
         
+          gc.menuEliminar();
 //celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
 
         
