@@ -1,3 +1,5 @@
+CREATE DATABASE tecnostore;
+
 use tecnostore;
 
 
@@ -10,15 +12,17 @@ CREATE TABLE Celulares (
 	marca VARCHAR(50),
 	modelo VARCHAR(50),
 	sistema_operativo VARCHAR(50),
+	gama VARCHAR(50),
 	precio DOUBLE(10,2),
 	stock INT,
 	PRIMARY KEY (id)
-	
 );
 
 -- -----------------------------------------------------
 -- Table Cliente
 -- -----------------------------------------------------
+
+
 
 CREATE TABLE Cliente(
 	id INT AUTO_INCREMENT, 
@@ -55,7 +59,7 @@ CREATE TABLE Detalle_ventas(
 	id_venta INT NOT NULL,
 	id_celular INT NOT NULL,
 	cantidad INT NOT NULL, 
-	subtotal DOUBLE NOT NULL , 
+	subtotal DOUBLE NOT NULL, 
 	
 	PRIMARY KEY (id),
   	FOREIGN KEY (id_venta)
@@ -63,5 +67,9 @@ CREATE TABLE Detalle_ventas(
  	FOREIGN KEY (id_celular)
  	REFERENCES  Celulares(id)
 );
+
+
+Select * from Celulares;
+
 
 

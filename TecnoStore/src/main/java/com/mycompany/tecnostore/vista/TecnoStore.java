@@ -6,11 +6,10 @@ package com.mycompany.tecnostore.vista;
 public class TecnoStore {
 
     /* gestionar el catálogo de : 
-        -celulares, 
-    clientes
-    ventas
-    reportes
-    
+        celulares, 
+        clientes
+        ventas
+        reportes
     */
     
     public static void main(String[] args) {
@@ -18,14 +17,14 @@ public class TecnoStore {
         
         GestorCelulares gc = new  GestorCelulares();
         
- //       gc.menuRegistrarCelular();
+        
+       gc.menuRegistrarCelular();
         
  //       gc.menuActualizarCelular();
         
-          gc.menuEliminar();
-//celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
-
-        
-        
+ //       gc.menuEliminar();
+ 
+ //       gc.menuListarCelular();
+    
     }
 }

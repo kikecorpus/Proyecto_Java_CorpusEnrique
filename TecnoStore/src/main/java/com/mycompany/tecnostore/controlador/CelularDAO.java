@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -27,7 +28,7 @@ public class CelularDAO implements IntGestionarCelulares{
         
         String sql = "INSERT INTO Celulares(marca, modelo, sistema_operativo, gama, precio, stock) VALUES(?,?,?,?,?,?)";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS) ){
+        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
             
             stmt.setString(1, celular.getMarca());
             stmt.setString(2, celular.getModelo());
@@ -38,7 +39,9 @@ public class CelularDAO implements IntGestionarCelulares{
             stmt.executeUpdate();
             
             // obtener id
-           ResultSet rs = stmt.getGeneratedKeys();
+            // con getGeneratedKeys puedo obtener el id generado en el statement
+            // solo funciona con inserciones
+           ResultSet rs = stmt.getGeneratedKeys(); 
            if (rs.next()) {
                celular.setId(rs.getInt(1));
            }
@@ -51,7 +54,7 @@ public class CelularDAO implements IntGestionarCelulares{
 
     @Override
     public void actualizarC(Celular celular, int id) {
-    String sql = "UPDATE Celulares set marca=?, modelo=?, sistema_operativo=?, gama=?, precio= ?, stock= ?  where id=?";
+    String sql = "UPDATE Celulares SET marca=?, modelo=?, sistema_operativo=?, gama=?, precio= ?, stock= ?  WHERE id=?";
         
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             
@@ -88,8 +91,36 @@ public class CelularDAO implements IntGestionarCelulares{
     }
 
     @Override
-    public void listarC() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Celular> listarC() {
+        
+        String sql = "SELECT * FROM Celulares";
+        
+        ArrayList<Celular> celulares = new ArrayList<>();
+        
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+               
+                Celular cel = new Celular(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            CategoriaGama.valueOf(rs.getString(5)),
+                            rs.getDouble(6),
+                            rs.getInt(7));
+                
+                celulares.add(cel);
+            
+            }
+            return celulares;
+        
+        } catch (SQLException ex) {
+            System.getLogger(CelularDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        return celulares;
     }
     
     public Celular buscar(int id){

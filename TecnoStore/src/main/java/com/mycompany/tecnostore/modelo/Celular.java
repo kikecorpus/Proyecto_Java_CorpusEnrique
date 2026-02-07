@@ -108,13 +108,13 @@ public class Celular implements Cloneable{
     public String toString() {
          return """
                *****************************
-               Id:          %s
-               Marca:      %s
+               Id:      %s
+               Marca:    %s
                Modelo:   %s
-               Sistema operativo: %s
+               Sistema op : %s
                Gama:    %s
                Precio:  %s
-                Stock: %s
+               Stock:   %s
              
                """.formatted(id,marca, modelo,sistema_operativo,gama,precio,stock);
     }
