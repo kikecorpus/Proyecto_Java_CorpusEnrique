@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class ClienteDAO implements IntGestionarClientes{
@@ -110,7 +111,7 @@ public class ClienteDAO implements IntGestionarClientes{
         return clientes;
     }
     
-     public Cliente buscar(int id){
+     public Optional<Cliente> buscar(int id){
     
         String sql = "SELECT * FROM Cliente WHERE id=?";
         Cliente cliente = new  Cliente();
@@ -127,16 +128,18 @@ public class ClienteDAO implements IntGestionarClientes{
             cliente.setCorreo(rs.getString(4));
             cliente.setTelefono(rs.getString(5));
             
+            // uso de optional por si el sql no trae resultados
+            Optional<Cliente> optCl = Optional.ofNullable(cliente);
             
-            return cliente;
+            return optCl;
         } else {
-                 System.out.println("\n******   Cliente no existe ******");
+                 System.out.println("\n****** Cliente no encontrado en la base de datos ******");
              }
         
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return cliente;
+        return Optional.empty();
     };
     
 }

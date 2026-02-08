@@ -70,7 +70,7 @@ public class CelularDAO implements IntGestionarCelulares{
         }catch(SQLException e){
             e.printStackTrace();
         }
-            }
+    }
 
     @Override
     public void eliminarC(int id) {
@@ -149,7 +149,7 @@ public class CelularDAO implements IntGestionarCelulares{
             
             return optCel;
             } else { // VALIDA QUE EXISTA
-                 System.out.println("\n****** Celular no existe ******");
+                 System.out.println("\n****** Celular no encontrado en la base de datos ******");
              }
         
         }catch(SQLException e){

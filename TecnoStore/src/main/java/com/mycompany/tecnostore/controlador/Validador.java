@@ -1,7 +1,12 @@
 
 package com.mycompany.tecnostore.controlador;
 
+import com.mycompany.tecnostore.modelo.Celular;
+import com.mycompany.tecnostore.modelo.Cliente;
+import com.mycompany.tecnostore.modelo.Venta;
+import com.mycompany.tecnostore.vista.GestorCelulares;
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 
@@ -86,7 +91,35 @@ public class Validador {
         }
     }
 
-        
+    //Validacion ResultSet 
     
+    public static boolean validateResultSet(Optional<Celular> optCel) {
+
+    if (optCel == null || optCel.isEmpty()) {
+        System.out.println("***** No existe el celular *****");
+        return false;
+    }
+
+    return true;
+    }
     
+    public static boolean validateResultSetCliente(Optional<Cliente> optCl) {
+
+    if (optCl == null || optCl.isEmpty()) {
+        System.out.println("***** No existe el cliente *****");
+        return false;
+    }
+
+    return true;
+    }
+    
+    public static boolean validateResultSetVenta(Optional<Venta> optV) {
+
+    if (optV == null || optV.isEmpty()) {
+        System.out.println("***** No existe el celular *****");
+        return false;
+    }
+
+    return true;
+    }
 }

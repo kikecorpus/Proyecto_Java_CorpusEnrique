@@ -77,9 +77,8 @@ public class GestorCelulares  {
         // uso de la clase optional para validar si cel retorna vacio
         Optional<Celular> optCel = buscarCelular(); 
         
-        if (optCel.isEmpty()) {
-        System.out.println("No existe el celular");
-        return; // si opcional almanceno un celular null lo detecta y rompe la funcion
+        if (!Validador.validateResultSet(optCel)) {
+             return;
         }
 
         Celular cel = optCel.get();
@@ -145,9 +144,8 @@ public class GestorCelulares  {
         
           Optional<Celular> optCel = buscarCelular(); 
 
-          if (optCel.isEmpty()) {
-          System.out.println("No existe el celular");
-          return; // si opcional almanceno un celular null lo detecta y rompe la funcion
+          if (!Validador.validateResultSet(optCel)) {
+             return;
           }
           
           Celular cel = optCel.get();
@@ -180,13 +178,13 @@ public class GestorCelulares  {
     // buscar 
         
         // buscar como asistente de otra funcion 
-    private Optional<Celular> buscarCelular(){
+    public Optional<Celular> buscarCelular(){
         
         // valida que el id no sea negativo, ni que sea una letra
         int id = Validador.validateID("\nIngresa el ID del celular:");
         
         Optional<Celular> optCel= c.buscar(id);
-        
+
          return optCel;
     }
        
@@ -197,16 +195,15 @@ public class GestorCelulares  {
         Optional<Celular> optCel= c.buscar(id);
         
         
-        if (optCel.isEmpty()) {
-        System.out.println("No existe el celular");
-        return; // si opcional almanceno un celular null lo detecta y rompe la funcion
-        } else{
+        if (!Validador.validateResultSet(optCel)) {
+             return;
+        }
         
         Celular cel = optCel.get();
 
         System.out.println(cel);
         }
-    }
+    
     
     // funciones para imprimir tablas 
     private void imprimirTablaCelulares(ArrayList<Celular> celulares) {
@@ -325,5 +322,6 @@ public class GestorCelulares  {
     System.out.println("------------------------------------------------------------------------------");
     System.out.println(" ---- '*' indica Campo modificado ---- ");
 }
-    
+ 
+
 }

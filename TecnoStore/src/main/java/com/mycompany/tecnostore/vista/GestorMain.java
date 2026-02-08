@@ -64,7 +64,7 @@ public class GestorMain {
                case 2 -> {gClient.actualizarCliente();}
                case 3 -> {gClient.eliminarCliente(); }
                case 4 -> {gClient.listarCliente();}
-               case 5 -> {gClient.buscarCliente();}
+               case 5 -> {gClient.buscarCl();}
                case 6 -> {}
            }
         }while(opC != 6);

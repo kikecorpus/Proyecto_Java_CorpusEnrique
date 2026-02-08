@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.tecnostore.vista;
 
 import com.mycompany.tecnostore.controlador.ClienteDAO;
 import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.modelo.Cliente;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -46,8 +44,15 @@ public class GestorClientes {
     }
         
     public void actualizarCliente(){
-       
-        Cliente cliente =  buscarCliente();
+        
+        // uso de la clase optional para validar si cel retorna vacio
+
+        Optional<Cliente> optCliente =  buscarCliente();
+        
+        if (!Validador.validateResultSetCliente(optCliente)) {
+             return;
+        }
+        Cliente cliente = optCliente.get();
         
         Cliente clienteBefore = (Cliente) cliente.clone(); // toca castear porque el .clone devuelve un object
         
@@ -77,26 +82,24 @@ public class GestorClientes {
         imprimirComparacion(clienteBefore, cliente);
     }
     
-    public Cliente buscarCliente(){
-        
-        
-        int id = Validador.validateID("\nIngresa el ID del cliente:");
-        Cliente cliente= c.buscar(id);
-        System.out.println(cliente);
-        return cliente;
-    }
-    
     public void eliminarCliente(){
+           // uso de la clase optional para validar si cel retorna vacio
+
+        Optional<Cliente> optCliente =  buscarCliente(); 
         
-        Cliente cliente = buscarCliente();
-        
-          System.out.println(cliente);
-          int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
-          if (op == 0) {
-                c.eliminarCl(cliente.getId());
-                System.out.println("****** Eliminado con exito ******");
-          } else {
-                System.out.println("***** No se elimino el cliente *****");}
+        if (!Validador.validateResultSetCliente(optCliente)) {
+             return;
+        }
+
+        Cliente cliente = optCliente.get();
+
+       System.out.println(cliente);
+       int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+       if (op == 0) {
+             c.eliminarCl(cliente.getId());
+             System.out.println("****** Eliminado con exito ******");
+       } else {
+             System.out.println("***** No se elimino el cliente *****");}
     }
     
     public void listarCliente(){
@@ -109,6 +112,34 @@ public class GestorClientes {
         
         imprimirTablaCliente (clientes); // funcion para tabla que se ajusta a la casilla // reto en clase 
     }
+    
+    
+    //Buscar
+        // buscar como asistente de otra funcion 
+
+    public Optional<Cliente> buscarCliente(){
+        int id = Validador.validateID("\nIngresa el ID del cliente:");
+        
+        Optional<Cliente> optCliente= c.buscar(id);
+        return optCliente;
+
+        }
+     // buscar como funcion principal 
+        
+        public void buscarCl(){
+        
+        int id = Validador.validateID("\nIngresa el ID del cliente:");
+        Optional<Cliente> optCliente= c.buscar(id);
+        
+        if (!Validador.validateResultSetCliente(optCliente)) {
+             return;
+        }
+        
+        Cliente cliente = optCliente.get();
+        
+        System.out.println(cliente);
+        
+        }
     
     // funciones para imprimir tablas 
     private void imprimirTablaCliente(ArrayList<Cliente> clientes) {
