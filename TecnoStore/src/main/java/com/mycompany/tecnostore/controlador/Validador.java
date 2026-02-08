@@ -4,10 +4,11 @@ package com.mycompany.tecnostore.controlador;
 import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.Cliente;
 import com.mycompany.tecnostore.modelo.Venta;
-import com.mycompany.tecnostore.vista.GestorCelulares;
-import java.util.InputMismatchException;
+import com.mycompany.tecnostore.vista.GestorClientes;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 
 public class Validador {
@@ -59,6 +60,7 @@ public class Validador {
              return op;
             
         }catch (Exception e) {
+                
                  System.out.println("**** Solo se admiten numeros ****");
                 }  
         return op;
@@ -122,4 +124,66 @@ public class Validador {
 
     return true;
     }
+    
+    //validacion CLiente
+    
+    public static String validateCorreo(String correo){
+        
+        while(!correo.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")){
+            System.out.println("****** correo no valido *****");
+            System.out.println("Ingrese nuevamente el correo");
+            correo = new Scanner(System.in).nextLine();
+        }
+        return correo;
+        
+    }
+    
+    public static String validarIdentificacion(String identificacion) {
+        ClienteDAO c = new ClienteDAO();
+        ArrayList<Cliente> cliente = c.listarCl();
+        Scanner scanner = new Scanner(System.in);
+
+        // Buscar si ya existe un cliente con esaidentificación
+         Optional<Cliente> filtro = cliente.stream()
+            .filter(z -> z.getIdentificacion().equals(identificacion))
+            .findFirst();
+        if (filtro.isPresent()) {
+            System.out.println("***** Identificaicion ya registrada, intente nuevamente *****");
+            return null;
+          }
+          
+         return identificacion;
+         
+        /*
+        if (filtro.isPresent()) {
+            System.out.println("***** La identificación ya se encuentra registrada *****");
+            System.out.println("¿Desea ingresar una identificación diferente?");
+            System.out.println("1. Sí");
+            System.out.println("2. No");
+            
+            int op = scanner.nextInt();
+            scanner.nextLine(); // Limpiar buffer
+            
+            switch(op) {
+                case 1:
+                    System.out.print("Ingrese nueva identificación: ");
+                     String identificacionNueva = scanner.nextLine();
+                     
+                    // El bucle continuará y volverá a validar
+                    break;
+                    
+                case 2:
+                    return null; // Usuario no quiere continuar
+                    
+                default:
+                    System.out.println("Opción inválida. Intente nuevamente.");
+            }
+        } else {
+            // Identificación disponible
+            return identificacion;
+            */
+        }
+
+    
+
 }

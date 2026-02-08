@@ -80,7 +80,8 @@ public class GestorCelulares  {
         if (!Validador.validateResultSet(optCel)) {
              return;
         }
-
+    
+        
         Celular cel = optCel.get();
        
         

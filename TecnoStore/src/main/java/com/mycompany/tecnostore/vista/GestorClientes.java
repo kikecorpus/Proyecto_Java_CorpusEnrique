@@ -24,10 +24,13 @@ public class GestorClientes {
         String nombre = new Scanner(System.in).nextLine();
         
         System.out.println("\nIngrese identificacion:");
-        String identificacion = new Scanner(System.in).nextLine();
+        String identificacion = Validador.validarIdentificacion(new Scanner(System.in).nextLine());
+        if(identificacion == null){
+            return;
+        }
         
         System.out.println("\nIngrese Correo:");
-        String correo = new Scanner(System.in).nextLine();
+        String correo =  Validador.validateCorreo(new Scanner(System.in).nextLine());
         
         System.out.println("\nIngrese telefono:");
         String telefono= new Scanner(System.in).nextLine();
@@ -126,7 +129,7 @@ public class GestorClientes {
         }
      // buscar como funcion principal 
         
-        public void buscarCl(){
+    public void buscarCl(){
         
         int id = Validador.validateID("\nIngresa el ID del cliente:");
         Optional<Cliente> optCliente= c.buscar(id);
