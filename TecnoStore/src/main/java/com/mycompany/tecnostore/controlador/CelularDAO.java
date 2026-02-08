@@ -18,6 +18,7 @@ public class CelularDAO implements IntGestionarCelulares{
       
     //celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
 
+    //CRUD
     @Override
     public void registrarC(Celular celular) {
         
@@ -78,8 +79,13 @@ public class CelularDAO implements IntGestionarCelulares{
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
-            stmt.executeUpdate();
-
+            int filas = stmt.executeUpdate();
+            
+            if (filas > 0) {
+            System.out.println("Registro eliminado correctamente");
+        } else {
+            System.out.println("No se encontró un celular con ese ID");
+        }
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -118,6 +124,7 @@ public class CelularDAO implements IntGestionarCelulares{
         return celulares;
     }
     
+    // buscar 
     public Celular buscar(int id){
     
         String sql = "SELECT * FROM Celulares where id=?";
@@ -138,15 +145,14 @@ public class CelularDAO implements IntGestionarCelulares{
             cel.setStock(rs.getInt("stock"));
             
             return cel;
-        } else {
+            } else { // VALIDA QUE EXISTA
                  System.out.println("\n****** Celular no existe ******");
              }
         
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return cel;
+        return null;
     };
-    
     
 }

@@ -1,12 +1,14 @@
 
 package com.mycompany.tecnostore.controlador;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class Validador {
     
     // Validaciones Celular
+        // que stock y precio sean positivos
     public static double validatePositiveDouble(double valor){
         
         while(valor< 0){
@@ -33,7 +35,7 @@ public class Validador {
     }
     
     // Validaciones Menu
-    
+        // dentro de rango de opciones y  que sea numero  
     public static int validateMenu(int minV,int maxV, String mensaje){
         
         int op = 0;
@@ -57,6 +59,34 @@ public class Validador {
         return op;
         
         }
+    
+    // validacion id Scanner
+        // que sean numeros y que sea positivo en el Scanner
+    public static int validateID(String mensaje){
+
+        Scanner sc = new Scanner(System.in);
+        int id;
+
+        while (true) {
+            System.out.println(mensaje);
+
+            if (sc.hasNextInt()) {
+                id = sc.nextInt();
+
+                if (id >= 0) {
+                    return id;
+                } else {
+                    System.out.println("****** El ID no puede ser negativo ******");
+                }
+
+            } else {
+                System.out.println("****** Solo se aceptan números ******");
+                sc.next(); 
+            }
+        }
+    }
+
+        
     
     
 }

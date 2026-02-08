@@ -30,7 +30,7 @@ public class Celular implements Cloneable{
     public Celular() {
     }
 
-    // Patron de diseño Prototype
+    // Patron de diseño creacional, Prototype
     @Override
     public Object clone(){
         

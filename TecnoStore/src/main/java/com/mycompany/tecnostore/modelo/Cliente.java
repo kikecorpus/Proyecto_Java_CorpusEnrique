@@ -9,7 +9,7 @@ clientes (id, nombre, identificacion, correo, telefono)
  */
 
 
-public class Cliente {
+public class Cliente implements Cloneable{
     private int id;
     private String nombre;
     private String identificacion;
@@ -18,7 +18,7 @@ public class Cliente {
 
       
     // Constructor completo (para SELECT)
-    public Cliente(int id, String nombre, String apellido, String identificacion, String correo) {
+    public Cliente(int id, String nombre, String identificacion, String correo, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.identificacion = identificacion;
@@ -30,8 +30,23 @@ public class Cliente {
     public Cliente() {
     }
     
-  
+    // clone 
 
+    @Override
+    public Object clone()  {
+        Cliente cloneCliente = new Cliente();
+        
+        cloneCliente.setId(this.id);
+        cloneCliente.setNombre(this.nombre);
+        cloneCliente.setIdentificacion(this.identificacion);
+        cloneCliente.setCorreo(this.correo);
+        cloneCliente.setTelefono(this.telefono);
+        
+        return cloneCliente;
+        
+    }
+    
+    
     // getter and setter 
     public int getId() {
         return id;

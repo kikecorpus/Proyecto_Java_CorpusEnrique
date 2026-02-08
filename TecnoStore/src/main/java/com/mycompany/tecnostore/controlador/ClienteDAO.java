@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.tecnostore.controlador;
 
-import com.mycompany.tecnostore.modelo.CategoriaGama;
-import com.mycompany.tecnostore.modelo.Cliente;
+
+
 import com.mycompany.tecnostore.modelo.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -75,11 +72,13 @@ public class ClienteDAO implements IntGestionarClientes{
         try(PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
+            
             stmt.executeUpdate();
 
         }catch(SQLException e){
             e.printStackTrace();
-        }    }
+        }    
+    }
 
     @Override
     public ArrayList<Cliente> listarCl() {
@@ -105,11 +104,39 @@ public class ClienteDAO implements IntGestionarClientes{
             return clientes;
         
         } catch (SQLException ex) {
-            System.getLogger(CelularDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            ex.printStackTrace();
         }
         
         return clientes;
     }
     
+     public Cliente buscar(int id){
+    
+        String sql = "SELECT * FROM Cliente WHERE id=?";
+        Cliente cliente = new  Cliente();
+        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, id);
+            ResultSet rs= stmt.executeQuery();
+            
+             if (rs.next()) {
+            
+            cliente.setId(rs.getInt(1));
+            cliente.setNombre(rs.getString(2));
+            cliente.setIdentificacion(rs.getString(3));
+            cliente.setCorreo(rs.getString(4));
+            cliente.setTelefono(rs.getString(5));
+            
+            
+            return cliente;
+        } else {
+                 System.out.println("\n******   Cliente no existe ******");
+             }
+        
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return cliente;
+    };
     
 }

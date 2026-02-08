@@ -13,10 +13,10 @@ import javax.swing.JOptionPane;
 
 public class GestorCelulares  {
     
-    CelularDAO c = new CelularDAO();
+    private CelularDAO c = new CelularDAO();
     
-    //menus
     
+    // crud
     public  void registrarCelular(){
         
         // inicializar celular a llenar
@@ -75,10 +75,12 @@ public class GestorCelulares  {
        
         Celular cel =  buscarCelular();
         
+        // validar que cel no sea null 
+        
         Celular celBefore = (Celular) cel.clone(); // toca castear porque el .clone devuelve un object
         
         System.out.println( "\nInformacion del Celular con id: #" + cel.getId());
-        System.out.println("\n***** Usala de Referencia ******"+ "\n" +cel);
+        System.out.println("\n***** Usala de Referencia ******"+ "\n" + cel);
        
         System.out.println("\nIngrese la marca:");
         String marca = new Scanner(System.in).nextLine();
@@ -131,26 +133,22 @@ public class GestorCelulares  {
         
     }
     
-    public Celular buscarCelular(){
-        System.out.println("\nIngrese Id del celular");
-        int id = new Scanner(System.in).nextInt();
-        Celular cel= c.buscar(id);
-        System.out.println(cel);
-         return cel;
-    }
-    
     public void eliminarCelular(){
         
         Celular cel = buscarCelular();
         
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+          // valida decicion del usuario pero no lo que ocurrio en database
           if (op == 0) {
                 c.eliminarC(cel.getId());
                 System.out.println("****** Eliminado con exito ******");
+          }  else if (op == JOptionPane.NO_OPTION) {
+          System.out.println("***** No se elimino el celular *****");
           } else {
-                System.out.println("***** No se elimino el celular *****");}
-    }
+          System.out.println("***** Operación cancelada *****");
+          }
+    }   
     
     public void listarCelular(){
         
@@ -161,6 +159,26 @@ public class GestorCelulares  {
         //celulares.stream().forEach(c -> System.out.println(c)); // para trabajar con un flujo 
         
         imprimirTablaCelulares(celulares); // funcion para tabla que se ajusta a la casilla // reto en clase 
+    }
+    
+    
+    // buscar 
+    private Celular buscarCelular(){
+        
+        // valida que el id no sea negativo, ni que sea una letra
+        int id = Validador.validateID("\nIngresa el ID del celular:");
+        
+        Celular cel= c.buscar(id);
+        
+         return cel;
+    }
+    
+    public Celular buscarCel(){
+ 
+        int id = Validador.validateID("\nIngresa el ID del celular:");
+        Celular cel= c.buscar(id);
+        System.out.println(cel);
+         return cel;
     }
     
     // funciones para imprimir tablas 

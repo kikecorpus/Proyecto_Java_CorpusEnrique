@@ -27,6 +27,7 @@ public class PrincipalMenu {
 
             switch(opM){
                case 1 -> g.menuCelular();
+               case 2 -> g.menuCliente();
            }
         }while(opM != 4);
     }
