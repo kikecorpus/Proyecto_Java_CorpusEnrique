@@ -6,6 +6,7 @@ import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.modelo.CategoriaGama;
 import com.mycompany.tecnostore.modelo.Celular;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -72,10 +73,17 @@ public class GestorCelulares  {
     }
     
     public void actualizarCelular(){
-       
-        Celular cel =  buscarCelular();
         
-        // validar que cel no sea null 
+        // uso de la clase optional para validar si cel retorna vacio
+        Optional<Celular> optCel = buscarCelular(); 
+        
+        if (optCel.isEmpty()) {
+        System.out.println("No existe el celular");
+        return; // si opcional almanceno un celular null lo detecta y rompe la funcion
+        }
+
+        Celular cel = optCel.get();
+       
         
         Celular celBefore = (Celular) cel.clone(); // toca castear porque el .clone devuelve un object
         
@@ -135,8 +143,15 @@ public class GestorCelulares  {
     
     public void eliminarCelular(){
         
-        Celular cel = buscarCelular();
-        
+          Optional<Celular> optCel = buscarCelular(); 
+
+          if (optCel.isEmpty()) {
+          System.out.println("No existe el celular");
+          return; // si opcional almanceno un celular null lo detecta y rompe la funcion
+          }
+          
+          Celular cel = optCel.get();
+           
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
           // valida decicion del usuario pero no lo que ocurrio en database
@@ -163,22 +178,34 @@ public class GestorCelulares  {
     
     
     // buscar 
-    private Celular buscarCelular(){
+        
+        // buscar como asistente de otra funcion 
+    private Optional<Celular> buscarCelular(){
         
         // valida que el id no sea negativo, ni que sea una letra
         int id = Validador.validateID("\nIngresa el ID del celular:");
         
-        Celular cel= c.buscar(id);
+        Optional<Celular> optCel= c.buscar(id);
         
-         return cel;
+         return optCel;
     }
-    
-    public Celular buscarCel(){
+       
+        // buscar como funcion principal 
+    public void buscarCel(){
  
         int id = Validador.validateID("\nIngresa el ID del celular:");
-        Celular cel= c.buscar(id);
+        Optional<Celular> optCel= c.buscar(id);
+        
+        
+        if (optCel.isEmpty()) {
+        System.out.println("No existe el celular");
+        return; // si opcional almanceno un celular null lo detecta y rompe la funcion
+        } else{
+        
+        Celular cel = optCel.get();
+
         System.out.println(cel);
-         return cel;
+        }
     }
     
     // funciones para imprimir tablas 

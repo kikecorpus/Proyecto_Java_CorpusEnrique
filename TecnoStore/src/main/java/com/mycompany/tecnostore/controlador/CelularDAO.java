@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class CelularDAO implements IntGestionarCelulares{
@@ -125,7 +126,7 @@ public class CelularDAO implements IntGestionarCelulares{
     }
     
     // buscar 
-    public Celular buscar(int id){
+    public Optional<Celular> buscar(int id){
     
         String sql = "SELECT * FROM Celulares where id=?";
         Celular cel = new Celular();
@@ -143,8 +144,10 @@ public class CelularDAO implements IntGestionarCelulares{
             cel.setGama(CategoriaGama.valueOf(rs.getString("gama")));
             cel.setPrecio(rs.getDouble("precio"));
             cel.setStock(rs.getInt("stock"));
+            // uso de optional por si el sql no trae resultados
+            Optional<Celular> optCel = Optional.ofNullable(cel); 
             
-            return cel;
+            return optCel;
             } else { // VALIDA QUE EXISTA
                  System.out.println("\n****** Celular no existe ******");
              }
@@ -152,7 +155,7 @@ public class CelularDAO implements IntGestionarCelulares{
         }catch(SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return Optional.empty();
     };
     
 }
