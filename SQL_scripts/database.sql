@@ -2,7 +2,6 @@ CREATE DATABASE tecnostore;
 
 use tecnostore;
 
-use pizzeria_don_piccolo;
 
 -- -----------------------------------------------------
 -- Table celulares
@@ -72,7 +71,20 @@ CREATE TABLE Detalle_ventas(
 );
 
 
-Select * from Detalle_Ventas;
+DELIMITER $$
+
+CREATE TRIGGER actualizar_total_venta
+AFTER INSERT ON Detalle_ventas
+FOR EACH ROW
+BEGIN
+    UPDATE Venta
+    SET total = total + NEW.subtotal
+    WHERE id = NEW.id_venta;
+END$$
+
+DELIMITER ;
+
+
 
 
 
