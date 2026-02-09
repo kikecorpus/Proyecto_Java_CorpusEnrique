@@ -153,7 +153,7 @@ public class CelularDAO implements IntGestionarCelulares{
              }
         
         }catch(SQLException e){
-            e.printStackTrace();
+                System.out.println("\n****** La tabla Celulares no tiene ningun registro ******");
         }
         return Optional.empty();
     };

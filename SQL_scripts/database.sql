@@ -2,6 +2,7 @@ CREATE DATABASE tecnostore;
 
 use tecnostore;
 
+use pizzeria_don_piccolo;
 
 -- -----------------------------------------------------
 -- Table celulares
@@ -27,13 +28,14 @@ CREATE TABLE Celulares (
 CREATE TABLE Cliente(
 	id INT AUTO_INCREMENT, 
 	nombre VARCHAR(50),
-	apellido VARCHAR(50),
 	identificacion VARCHAR(50),
 	correo VARCHAR(50),
 	telefono VARCHAR(50),
 	
 	PRIMARY KEY (id)
 );
+
+
 
 -- -----------------------------------------------------
 -- Table Venta
@@ -44,11 +46,12 @@ CREATE TABLE Venta(
 	id INT AUTO_INCREMENT,
 	id_cliente INT,
 	fecha DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP, 
-	total DOUBLE(10,2),
-	
+	total DOUBLE(10,2) DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_cliente) REFERENCES Cliente(id)
 	);
+
+
 
 -- -----------------------------------------------------
 -- Table detalle venta
@@ -69,7 +72,7 @@ CREATE TABLE Detalle_ventas(
 );
 
 
-Select * from Celulares;
+Select * from Detalle_Ventas;
 
 
 

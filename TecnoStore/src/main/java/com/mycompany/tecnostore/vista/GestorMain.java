@@ -8,7 +8,7 @@ public class GestorMain {
     
     private GestorCelulares gCel = new  GestorCelulares();
     private GestorClientes gClient = new  GestorClientes();
-    //GestorVentas gVent = new  GestorVentas();
+    private VentaCompleta vc = new VentaCompleta();
         
     public  void menuCelular(){
         int opC;
@@ -66,6 +66,36 @@ public class GestorMain {
                case 4 -> {gClient.listarCliente();}
                case 5 -> {gClient.buscarCl();}
                case 6 -> {}
+           }
+        }while(opC != 6);
+    }
+
+    void menuVenta() {
+        int opC;
+        do{
+            System.out.println("""
+
+                               =============================
+                               **********  Ventas  *********
+                               =============================
+                               1.   Registrar Venta.
+                               2.   Actualizar Venta.
+                               3.   Eliminar Venta.
+                               4.   Listar Ventas.
+                               5.   Buscar Venta por Id.
+                               6.   Regresar
+
+                               =============================
+                               """);
+           opC = Validador.validateMenu(1, 6, "Ingrese la opcion que desea:");
+
+           switch(opC){
+               case 1 -> {vc.flujoDeVenta();}
+              /* case 2 -> {gVent.actualizarVenta();}
+               case 3 -> {gVent.eliminarVenta(); }
+               case 4 -> {gVent.listarVenta();}
+               case 5 -> {gVent.buscarVen();}
+               case 6 -> {}*/
            }
         }while(opC != 6);
     }

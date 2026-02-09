@@ -4,7 +4,7 @@ package com.mycompany.tecnostore.modelo;
 /**
 ventas (id, id_cliente, fecha, total)
  */
-public class Venta {
+public class Venta implements Cloneable{
     
   private int id;
   private Cliente id_cliente;
@@ -20,6 +20,19 @@ public class Venta {
     
     //Contructor vacio para sql 
     public Venta() {
+    }
+    
+     // Patron de diseño creacional, Prototype
+    @Override
+    public Object clone(){
+        
+        Venta cloneVenta = new Venta();
+        cloneVenta.setId(this.id);
+        cloneVenta.setId_cliente(this.id_cliente);
+        cloneVenta.setFecha(this.fecha);
+        cloneVenta.setTotal(this.total);
+        
+        return cloneVenta;
     }
     
 // Getter and Setter 

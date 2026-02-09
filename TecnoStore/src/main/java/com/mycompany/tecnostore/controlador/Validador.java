@@ -3,6 +3,7 @@ package com.mycompany.tecnostore.controlador;
 
 import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.Cliente;
+import com.mycompany.tecnostore.modelo.ItemVenta;
 import com.mycompany.tecnostore.modelo.Venta;
 import com.mycompany.tecnostore.vista.GestorClientes;
 import java.util.ArrayList;
@@ -125,6 +126,16 @@ public class Validador {
     return true;
     }
     
+    public static boolean validateResultSetItemVenta(Optional<ItemVenta> optIV) {
+
+    if (optIV == null || optIV.isEmpty()) {
+        System.out.println("***** No existe el ItemVenta *****");
+        return false;
+    }
+
+    return true;
+    }
+
     //validacion CLiente
     
     public static String validateCorreo(String correo){

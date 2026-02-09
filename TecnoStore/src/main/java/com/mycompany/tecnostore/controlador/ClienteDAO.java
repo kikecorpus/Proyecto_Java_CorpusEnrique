@@ -137,7 +137,7 @@ public class ClienteDAO implements IntGestionarClientes{
              }
         
         }catch(SQLException e){
-            e.printStackTrace();
+                System.out.println("\n****** La tabla Cliente no tiene ningun registro ******");
         }
         return Optional.empty();
     };
