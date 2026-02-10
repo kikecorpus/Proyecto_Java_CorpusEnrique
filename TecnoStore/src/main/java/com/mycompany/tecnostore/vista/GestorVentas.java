@@ -10,8 +10,7 @@ import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
-import static javax.management.Query.value;
-import javax.swing.JOptionPane;
+
 
 public class GestorVentas {
     
@@ -37,12 +36,9 @@ public class GestorVentas {
         int idCliente = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
         //poblar cliente dentro de Venta
-        
-        Optional<Cliente> optCl = cdao.buscar(idCliente);
 
-        // guardo Cliente solo con el id
-        Cliente cliente = new Cliente();
-        cliente.setId(idCliente);
+        Cliente cliente = Validador.validateResultSetCliente(idCliente);
+       
 
         // construir venta
         venta.setId_cliente(cliente);
@@ -107,8 +103,13 @@ public class GestorVentas {
  
         int id = Validador.validateID("\nIngresa el ID de la venta:");
         Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
+           if(venta == null ){
+            System.out.println(" Celular Vacio Regresando ...");
+        }else {
+        System.out.println(venta);}
         
-        System.out.println(venta);
+        }
+        
     }
     
     // funciones para imprimir tablas 

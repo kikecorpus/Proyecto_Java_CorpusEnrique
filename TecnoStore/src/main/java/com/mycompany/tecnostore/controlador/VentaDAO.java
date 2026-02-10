@@ -32,6 +32,7 @@ public class VentaDAO implements IntGestionarVentas {
             ResultSet rs = stmt.getGeneratedKeys(); 
             if (rs.next()) {
                 venta.setId(rs.getInt(1));
+
             }
             
             Optional<Venta> optVenta = Optional.of(venta);

@@ -117,9 +117,12 @@ public class GestorClientes {
         int id = Validador.validateID("\nIngresa el ID del cliente:");
         Cliente cliente= Validador.validateResultSetCliente(id);
         
-        System.out.println(cliente);
-        
+          if(cliente == null ){
+            System.out.println(" Cliente Vacio Regresando ...");
+        }else {
+            System.out.println(cliente);
         }
+    }
     
     // funciones para imprimir tablas 
     private void imprimirTablaCliente(ArrayList<Cliente> clientes) {

@@ -168,8 +168,12 @@ public class GestorCelulares  {
  
         int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
         Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
-
-        System.out.println(cel);
+        
+        if(cel == null ){
+            System.out.println(" Celular Vacio Regresando ...");
+        }else {
+        System.out.println(cel);}
+        
         }
     
     

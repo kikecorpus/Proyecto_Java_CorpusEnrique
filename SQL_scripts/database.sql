@@ -70,7 +70,7 @@ CREATE TABLE Detalle_ventas(
  	REFERENCES  Celulares(id)
 );
 
-
+-- trigger para actualizar total en la tabla venta cada vez que se inserte un detalle venta 
 DELIMITER $$
 
 CREATE TRIGGER actualizar_total_venta
@@ -83,6 +83,24 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- trigger para actualizar stock 
+DELIMITER $$
+
+CREATE TRIGGER trg_actualizar_stock
+AFTER INSERT ON detalle_ventas
+FOR EACH ROW
+BEGIN
+    UPDATE celular
+    SET stock = stock - NEW.cantidad
+    WHERE id = NEW.id_celular;
+END$$
+
+DELIMITER ;
+
+
+
+
 
 
 

@@ -106,9 +106,13 @@ public class Validador {
 
         while (optC == null || optC.isEmpty()) {
             System.out.println("***** El id no coincide por favor ingrese otro  *****");
-            id = validateID("Ingrese nuevo id para celular");
+            System.out.println("Presione el numeo 0 para salir");
+            id = validateID("Ingrese nuevo id para continuar");
             optC =  cdao.buscar(id);
-            
+            switch (id){
+                case 0 -> {return optC.orElse(null);}
+            }
+               
         }
         
         return optC.get();
@@ -121,8 +125,13 @@ public class Validador {
 
         while (optCl == null || optCl.isEmpty()) {
             System.out.println("***** El id no coincide por favor ingrese otro  *****");
+            System.out.println("Presione el numeo 0 para salir");
             id = validateID("Ingrese nuevo id para cliente");
             optCl =  cdao.buscar(id);
+            
+             switch (id){
+                case 0 -> {return optCl.orElse(null);}
+            }
             
         }
 
@@ -136,8 +145,12 @@ public class Validador {
 
         while (optV == null || optV.isEmpty()) {
             System.out.println("***** El id no coincide por favor ingrese otro  *****");
+            System.out.println("Presione el numeo 0 para salir");
             id = validateID("Ingrese nuevo id para venta");
             optV =  vdao.buscar(id);
+            switch (id){
+                case 0 -> {return optV.orElse(null);}
+            }
             
         }
         
@@ -156,7 +169,11 @@ public class Validador {
 
         if (detalles.isEmpty()) {
             System.out.println("***** El id no coincide, por favor ingrese otro *****");
+            System.out.println("Presione el numeo 0 para salir");
             id = validateID("Ingrese nuevo id para Item venta");
+            switch (id){
+                case 0 -> {return detalles;}
+            }
         }
 
         } while (detalles.isEmpty());

@@ -36,7 +36,7 @@ public class GestorMain {
                case 3 -> {gCel.eliminarCelular(); }
                case 4 -> {gCel.listarCelular();}
                case 5 -> {gCel.buscarCelular();}
-               case 6 -> {}
+               case 6 -> {System.out.println("Regresando ...");}
            }
         }while(opC != 6);
     }
@@ -66,7 +66,7 @@ public class GestorMain {
                case 3 -> {gClient.eliminarCliente(); }
                case 4 -> {gClient.listarCliente();}
                case 5 -> {gClient.buscarCliente();}
-               case 6 -> {}
+               case 6 -> {System.out.println("Regresando ...");}
            }
         }while(opC != 6);
     }
@@ -93,7 +93,7 @@ public class GestorMain {
                case 2 -> {vc.actualizarVentaCompleta();}
                case 3 -> {gVent.listarVenta();}
                case 4 -> {gVent.buscarVenta();}
-               case 5 -> {}
+               case 5 -> {System.out.println("Regresando ...");}
            }
         }while(opC != 6);
     }

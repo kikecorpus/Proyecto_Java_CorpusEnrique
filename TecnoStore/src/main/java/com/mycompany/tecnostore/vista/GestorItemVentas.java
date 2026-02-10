@@ -37,8 +37,7 @@ public class GestorItemVentas {
         int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
         // Crear objeto Celular solo con el ID
-        Celular celular = new Celular();
-        celular.setId(idCelular);
+        Celular celular = Validador.validateResultSet(idCelular);
         
         // solicitar info  cantidad
         System.out.println("\nIngrese la cantidad:");
@@ -123,6 +122,10 @@ public class GestorItemVentas {
         int id = Validador.validateID("\nIngresa el ID del detalle de venta:");
         ArrayList<ItemVenta> detalles = Validador.validateResultSetItemVenta(id); 
         detalles.forEach(d -> System.out.println(d));
+        if(detalles.isEmpty()){
+            System.out.println("Regresando");
+        }
+        
         return detalles;
     }
     
