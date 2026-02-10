@@ -103,7 +103,6 @@ public class GestorVentas {
         
         if (op == 0) {
             v.eliminarV(venta.getId());
-            System.out.println("****** Eliminado con exito ******");
         } else if (op == JOptionPane.NO_OPTION) {
             System.out.println("***** No se elimino la venta *****");
         } else {

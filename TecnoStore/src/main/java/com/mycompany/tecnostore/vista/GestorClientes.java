@@ -99,10 +99,12 @@ public class GestorClientes {
        System.out.println(cliente);
        int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
        if (op == 0) {
-             c.eliminarCl(cliente.getId());
-             System.out.println("****** Eliminado con exito ******");
-       } else {
-             System.out.println("***** No se elimino el cliente *****");}
+             c.eliminarCl(cliente.getId()); 
+       } else if (op == JOptionPane.NO_OPTION) {
+            System.out.println("***** No se elimino la venta *****");
+        } else {
+            System.out.println("***** Operación cancelada *****");
+        }
     }
     
     public void listarCliente(){

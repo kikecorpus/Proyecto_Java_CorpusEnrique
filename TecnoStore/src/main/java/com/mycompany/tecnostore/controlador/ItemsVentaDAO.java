@@ -15,17 +15,14 @@ import java.util.Optional;
 
 public class ItemsVentaDAO implements IntGestionarItemVentas{
 
-    ConexionDb con = new ConexionDb();
-    Connection conexion = con.conectar();
-    
-    
     @Override
     public Optional<ItemVenta> RegistrarIv(ItemVenta itemVenta) {
         
           
          String sql = "INSERT INTO Detalle_ventas(id_venta, id_celular, cantidad, subtotal) VALUES(?,?,?,?)";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             
             stmt.setInt(1, itemVenta.getId_venta().getId()); // Solo guardamos el ID de la venta
             stmt.setInt(2, itemVenta.getId_celular().getId()); // Solo guardamos el ID del celular
@@ -55,7 +52,8 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
             String sql = "SELECT * FROM Detalle_ventas WHERE id=?";
             ItemVenta itemVenta = new ItemVenta();
 
-            try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+            try(Connection conexion = ConexionDb.getInstancia().conectar();
+                PreparedStatement stmt = conexion.prepareStatement(sql)){
 
                 stmt.setInt(1, id);
                 ResultSet rs = stmt.executeQuery();
@@ -97,7 +95,8 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
         
         ArrayList<ItemVenta> itemVentas = new ArrayList<>();
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             ResultSet rs = stmt.executeQuery();
             

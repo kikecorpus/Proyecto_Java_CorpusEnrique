@@ -156,7 +156,6 @@ public class GestorCelulares  {
           // valida decicion del usuario pero no lo que ocurrio en database
           if (op == 0) {
                 c.eliminarC(cel.getId());
-                System.out.println("****** Eliminado con exito ******");
           }  else if (op == JOptionPane.NO_OPTION) {
           System.out.println("***** No se elimino el celular *****");
           } else {

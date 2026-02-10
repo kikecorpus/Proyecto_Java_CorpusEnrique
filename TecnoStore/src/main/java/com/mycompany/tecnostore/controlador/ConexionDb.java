@@ -44,7 +44,11 @@ public class ConexionDb{
         return instancia;
     }
     
-    public Connection conectar() {
+    public Connection conectar() throws SQLException {
+        
+          if (conexion == null || conexion.isClosed()) {
+        this.conexion = DriverManager.getConnection(url, user, pass);
+        }
         return conexion;
     
     }
