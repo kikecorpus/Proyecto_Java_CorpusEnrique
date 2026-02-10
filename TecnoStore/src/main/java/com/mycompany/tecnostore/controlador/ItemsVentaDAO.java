@@ -18,7 +18,8 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
     @Override
     public Optional<ItemVenta> RegistrarIv(ItemVenta itemVenta) {
         
-          
+        ArrayList<ItemVenta> detalles = new ArrayList<>();
+
          String sql = "INSERT INTO Detalle_ventas(id_venta, id_celular, cantidad, subtotal) VALUES(?,?,?,?)";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
@@ -35,8 +36,9 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
             if (rs.next()) {
                 itemVenta.setId(rs.getInt(1));
             }
+            detalles = buscar(itemVenta.getId());
             
-            Optional<ItemVenta> optItemVenta = buscar(itemVenta.getId());
+            Optional<ItemVenta> optItemVenta = Optional.of(detalles.getFirst());
             System.out.println("****** Registro exitoso ******");
             return optItemVenta;
             
@@ -47,9 +49,27 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
      }
     
     @Override
-    public Optional<ItemVenta> buscar(int id){
+    public void actualizarIV(ItemVenta itemVenta) {
+        String sql = "UPDATE Detalle_ventas SET id_celular=?, cantidad=? WHERE id=?";
+        
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
+
+            stmt.setInt(1, itemVenta.getId_celular().getId()); // Solo guardamos el ID del celular
+            stmt.setInt(2, itemVenta.getCantidad());
+            stmt.setDouble(3, itemVenta.getId());
+
+            System.out.println("****** Actualizacion exitosa ******");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public ArrayList<ItemVenta> buscar(int id){
 
             String sql = "SELECT * FROM Detalle_ventas WHERE id=?";
+            ArrayList<ItemVenta> detalles = new ArrayList<>();
             ItemVenta itemVenta = new ItemVenta();
 
             try(Connection conexion = ConexionDb.getInstancia().conectar();
@@ -58,7 +78,7 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
                 stmt.setInt(1, id);
                 ResultSet rs = stmt.executeQuery();
 
-                if (rs.next()) {
+                while (rs.next()) {
 
                     // Crear objeto Venta solo con el ID
                     Venta venta = new Venta();
@@ -74,24 +94,25 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
                     itemVenta.setCantidad(rs.getInt("cantidad"));
                     itemVenta.setSubtotal(rs.getDouble("subtotal"));
 
-                    // uso de optional por si el sql no trae resultados
-                    Optional<ItemVenta> optItemVenta = Optional.ofNullable(itemVenta); 
-
-                    return optItemVenta;
-                } else {
-                    System.out.println("\n****** Detalle de venta no encontrado en la base de datos ******");
+                    detalles.add(itemVenta);
+                    
+                    if(detalles.isEmpty()){
+                        System.out.println("\n****** La venta no tiene ítems asociados ******");
+                    }
+                    
+                    return detalles;
                 }
 
             }catch(SQLException e){
-                e.printStackTrace();
+                System.out.println("Erro en encontral al usuario");
             }
-            return Optional.empty();
+            return detalles;
     }    
     
      @Override
     public ArrayList<ItemVenta> listarIV() {
         
-        String sql = "SELECT * FROM detalle_ventas";
+        String sql = "SELECT * FROM Detalle_ventas";
         
         ArrayList<ItemVenta> itemVentas = new ArrayList<>();
         

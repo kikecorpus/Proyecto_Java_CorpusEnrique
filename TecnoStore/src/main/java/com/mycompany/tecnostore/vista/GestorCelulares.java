@@ -6,7 +6,6 @@ import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.modelo.CategoriaGama;
 import com.mycompany.tecnostore.modelo.Celular;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -75,14 +74,8 @@ public class GestorCelulares  {
     public void actualizarCelular(){
         
         // uso de la clase optional para validar si cel retorna vacio
-        Optional<Celular> optCel = buscarCelular(); 
-        
-        if (!Validador.validateResultSet(optCel)) {
-             return;
-        }
-    
-        
-        Celular cel = optCel.get();
+         int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
+         Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
        
         
         Celular celBefore = (Celular) cel.clone(); // toca castear porque el .clone devuelve un object
@@ -134,7 +127,7 @@ public class GestorCelulares  {
         cel.setPrecio(precio);
         cel.setStock(stock);
         
-        c.actualizarC(cel, cel.getId());
+        c.actualizarC(cel);
         
         
        imprimirTablaComparativa(celBefore, cel);
@@ -143,14 +136,9 @@ public class GestorCelulares  {
     
     public void eliminarCelular(){
         
-          Optional<Celular> optCel = buscarCelular(); 
+         int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
+         Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
 
-          if (!Validador.validateResultSet(optCel)) {
-             return;
-          }
-          
-          Celular cel = optCel.get();
-           
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
           // valida decicion del usuario pero no lo que ocurrio en database
@@ -176,30 +164,10 @@ public class GestorCelulares  {
     
     
     // buscar 
-        
-        // buscar como asistente de otra funcion 
-    public Optional<Celular> buscarCelular(){
-        
-        // valida que el id no sea negativo, ni que sea una letra
-        int id = Validador.validateID("\nIngresa el ID del celular:");
-        
-        Optional<Celular> optCel= c.buscar(id);
-
-         return optCel;
-    }
-       
-        // buscar como funcion principal 
-    public void buscarCel(){
+    public void buscarCelular(){
  
-        int id = Validador.validateID("\nIngresa el ID del celular:");
-        Optional<Celular> optCel= c.buscar(id);
-        
-        
-        if (!Validador.validateResultSet(optCel)) {
-             return;
-        }
-        
-        Celular cel = optCel.get();
+        int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
+        Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
 
         System.out.println(cel);
         }
@@ -323,5 +291,4 @@ public class GestorCelulares  {
     System.out.println(" ---- '*' indica Campo modificado ---- ");
 }
  
-
 }

@@ -51,7 +51,7 @@ public class CelularDAO implements IntGestionarCelulares{
     }
 
     @Override
-    public void actualizarC(Celular celular, int id) {
+    public void actualizarC(Celular celular) {
     String sql = "UPDATE Celulares SET marca=?, modelo=?, sistema_operativo=?, gama=?, precio= ?, stock= ?  WHERE id=?";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
@@ -63,11 +63,9 @@ public class CelularDAO implements IntGestionarCelulares{
             stmt.setObject(4, celular.getGama().name());
             stmt.setDouble(5, celular.getPrecio());
             stmt.setInt(6, celular.getStock());
-            stmt.setInt(7, id);
+            stmt.setInt(7, celular.getId());
             stmt.executeUpdate();
-            celular.setId(id);
- 
-            System.out.println(celular);
+            
             System.out.println("****** Actualizacion exitosa ******");
         }catch(SQLException e){
             e.printStackTrace();

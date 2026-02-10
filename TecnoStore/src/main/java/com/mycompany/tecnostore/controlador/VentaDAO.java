@@ -46,8 +46,8 @@ public class VentaDAO implements IntGestionarVentas {
     }
 
     @Override
-    public void actualizarV(Venta venta, int id) {
-        String sql = "UPDATE Ventas SET id_cliente=?, fecha=?, total=? WHERE id=?";
+    public void actualizarV(Venta venta) {
+        String sql = "UPDATE Venta SET id_cliente=?, fecha=?, total=? WHERE id=?";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
             PreparedStatement stmt = conexion.prepareStatement(sql)){
@@ -55,36 +55,12 @@ public class VentaDAO implements IntGestionarVentas {
             stmt.setInt(1, venta.getId_cliente().getId()); // Solo guardamos el ID del cliente
             stmt.setString(2, venta.getFecha());
             stmt.setDouble(3, venta.getTotal());
-            stmt.setInt(4, id);
+            stmt.setInt(4, venta.getId());
             stmt.executeUpdate();
-            venta.setId(id);
- 
-            System.out.println(venta);
+
             System.out.println("****** Actualizacion exitosa ******");
         }catch(SQLException e){
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void eliminarV(int id) {
-        
-        String sql = "DELETE FROM Ventas WHERE id=?";
-        
-        try(Connection conexion = ConexionDb.getInstancia().conectar();
-            PreparedStatement stmt = conexion.prepareStatement(sql)){
-            
-            stmt.setInt(1, id);
-            int filas = stmt.executeUpdate();
-            
-            if (filas > 0) {
-                System.out.println("Registro eliminado correctamente");
-            } else {
-                System.out.println("No se encontró una venta con ese ID");
-            }
-        }
-        catch(SQLException e){
-            System.out.println("***** Error en eliminar de la base de datos *****");
         }
     }
 
@@ -127,7 +103,7 @@ public class VentaDAO implements IntGestionarVentas {
     // buscar 
     public Optional<Venta> buscar(int id){
     
-        String sql = "SELECT * FROM Ventas WHERE id=?";
+        String sql = "SELECT * FROM Venta WHERE id=?";
         Venta venta = new Venta();
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
@@ -160,6 +136,29 @@ public class VentaDAO implements IntGestionarVentas {
         }
         return Optional.empty();
     }
-    
+
+    /*
+    @Override
+    public void eliminarV(int id) {
+        
+        String sql = "DELETE FROM Venta WHERE id=?";
+        
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            stmt.setInt(1, id);
+            int filas = stmt.executeUpdate();
+            
+            if (filas > 0) {
+                System.out.println("Registro eliminado correctamente");
+            } else {
+                System.out.println("No se encontró una venta con ese ID");
+            }
+        }
+        catch(SQLException e){
+            System.out.println("***** Error en eliminar de la base de datos *****");
+        }
+    }
+    */
 }
 

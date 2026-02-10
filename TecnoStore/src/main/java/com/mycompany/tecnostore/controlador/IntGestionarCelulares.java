@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface IntGestionarCelulares {
     
     void registrarC(Celular celular);
-    void actualizarC(Celular celular, int id);
+    void actualizarC(Celular celular);
     void eliminarC(int id);
     ArrayList<Celular> listarC();
     

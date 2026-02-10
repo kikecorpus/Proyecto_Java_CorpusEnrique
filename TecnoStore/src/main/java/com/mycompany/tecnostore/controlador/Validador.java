@@ -5,6 +5,9 @@ import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.Cliente;
 import com.mycompany.tecnostore.modelo.ItemVenta;
 import com.mycompany.tecnostore.modelo.Venta;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
@@ -95,44 +98,70 @@ public class Validador {
 
     //Validacion ResultSet 
     
-    public static boolean validateResultSet(Optional<Celular> optCel) {
+    public static Celular validateResultSet(int id) {
 
-    if (optCel == null || optCel.isEmpty()) {
-        System.out.println("***** No existe el celular *****");
-        return false;
-    }
+        CelularDAO cdao = new CelularDAO();
 
-    return true;
-    }
-    
-    public static boolean validateResultSetCliente(Optional<Cliente> optCl) {
+        Optional<Celular> optC =  cdao.buscar(id);
 
-    if (optCl == null || optCl.isEmpty()) {
-        System.out.println("***** No existe el cliente *****");
-        return false;
-    }
-
-    return true;
+        while (optC == null || optC.isEmpty()) {
+            System.out.println("***** El id no coincide por favor ingrese otro  *****");
+            id = validateID("Ingrese nuevo id para celular");
+            optC =  cdao.buscar(id);
+            
+        }
+        
+        return optC.get();
     }
     
-    public static boolean validateResultSetVenta(Optional<Venta> optV) {
+    public static  Cliente validateResultSetCliente(int id) {
+        ClienteDAO cdao = new ClienteDAO();
+        
+        Optional<Cliente> optCl =  cdao.buscar(id);
 
-    if (optV == null || optV.isEmpty()) {
-        System.out.println("***** No existe el celular *****");
-        return false;
-    }
+        while (optCl == null || optCl.isEmpty()) {
+            System.out.println("***** El id no coincide por favor ingrese otro  *****");
+            id = validateID("Ingrese nuevo id para cliente");
+            optCl =  cdao.buscar(id);
+            
+        }
 
-    return true;
+        return optCl.get();
     }
     
-    public static boolean validateResultSetItemVenta(Optional<ItemVenta> optIV) {
+    public static Venta validateResultSetVenta(int id) {
+        VentaDAO vdao = new VentaDAO();
 
-    if (optIV == null || optIV.isEmpty()) {
-        System.out.println("***** No existe el ItemVenta *****");
-        return false;
+        Optional<Venta> optV =  vdao.buscar(id);
+
+        while (optV == null || optV.isEmpty()) {
+            System.out.println("***** El id no coincide por favor ingrese otro  *****");
+            id = validateID("Ingrese nuevo id para venta");
+            optV =  vdao.buscar(id);
+            
+        }
+        
+        return optV.get();
+           
     }
+    
+    public static ArrayList<ItemVenta> validateResultSetItemVenta(int id) {
 
-    return true;
+        ItemsVentaDAO ivdao = new ItemsVentaDAO();
+
+        ArrayList<ItemVenta> detalles =  ivdao.buscar(id);
+
+        do {
+        detalles = ivdao.buscar(id);
+
+        if (detalles.isEmpty()) {
+            System.out.println("***** El id no coincide, por favor ingrese otro *****");
+            id = validateID("Ingrese nuevo id para Item venta");
+        }
+
+        } while (detalles.isEmpty());
+        
+        return detalles;
     }
 
     //validacion CLiente
@@ -193,7 +222,25 @@ public class Validador {
             return identificacion;
             */
         }
+    
+    // validar fecha 
+    
+    public static LocalDate validarFecha(String mensaje) {
 
+    Scanner sc = new Scanner(System.in);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    while (true) {
+        System.out.println(mensaje + " (formato: YYYY-MM-DD): ");
+        String input = sc.nextLine();
+
+        try {
+            return LocalDate.parse(input, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("***** Fecha inválida. Ejemplo válido: 2025-02-10 *****");
+        }
+    }
+}
     
 
 }

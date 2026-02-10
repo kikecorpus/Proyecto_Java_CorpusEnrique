@@ -72,10 +72,12 @@ public class Venta implements Cloneable{
    @Override
     public String toString() {
          return """
-               *****************************
+               ======= Venta ======= 
                Id:          %s
-               Id Cliente:      %s
-               Fehca:   %s
+               =======   a   =======  
+               %s
+               =======  Info  ======
+               Fecha:   %s
                total: %s
              
                """.formatted(id,id_cliente, fecha,total);

@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface IntGestionarItemVentas {
     
     Optional<ItemVenta> RegistrarIv(ItemVenta itemVenta);
-    Optional<ItemVenta> buscar(int id);
+    public void actualizarIV(ItemVenta itemVenta);
+    ArrayList<ItemVenta> buscar(int id);
     ArrayList<ItemVenta> listarIV();
 }

@@ -43,24 +43,22 @@ public class ClienteDAO implements IntGestionarClientes{
         }
         
     }
-
+    
     @Override
-    public void actualizarCl(Cliente cliente, int id) {
+    public void actualizarCl(Cliente cliente) {
         String sql = "UPDATE Cliente SET nombre=?, identificacion=?, correo=?, telefono=?  WHERE id=?";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
             PreparedStatement stmt = conexion.prepareStatement(sql)){
             
-            cliente.setId(id);
             stmt.setString(1, cliente.getNombre());
             stmt.setString(2, cliente.getIdentificacion());
             stmt.setString(3, cliente.getCorreo());
             stmt.setObject(4, cliente.getTelefono());  
-            stmt.setInt(5, id); 
+            stmt.setInt(5, cliente.getId()); 
             
             stmt.executeUpdate();// activa el codigo sql
 
-            System.out.println(cliente);
             System.out.println("****** Actualizacion exitosa ******");
         }catch(SQLException e){
             e.printStackTrace();
@@ -117,7 +115,7 @@ public class ClienteDAO implements IntGestionarClientes{
         return clientes;
     }
     
-     public Optional<Cliente> buscar(int id){
+    public Optional<Cliente> buscar(int id){
     
         String sql = "SELECT * FROM Cliente WHERE id=?";
         Cliente cliente = new  Cliente();

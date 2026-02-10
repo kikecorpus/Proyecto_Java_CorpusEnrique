@@ -4,25 +4,31 @@ package com.mycompany.tecnostore.vista;
 import com.mycompany.tecnostore.controlador.Calculos;
 import com.mycompany.tecnostore.controlador.ItemsVentaDAO;
 import com.mycompany.tecnostore.controlador.Validador;
+import com.mycompany.tecnostore.controlador.VentaDAO;
 import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.ItemVenta;
 import com.mycompany.tecnostore.modelo.Venta;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class GestorItemVentas {
     
     private ItemsVentaDAO iv = new ItemsVentaDAO();
-    private GestorVentas gv = new GestorVentas();
+    private VentaDAO vdao = new VentaDAO();
     private GestorCelulares gcel = new GestorCelulares();
-    // crud
-    public ItemVenta registrarItemVenta(Venta venta){
+    
+// crud
+    // registrar
+    public ArrayList<ItemVenta> registrarItemVenta(Venta venta){
         
         // inicializar itemVenta a llenar
         ItemVenta itemVenta = new ItemVenta(); 
-
+        ArrayList<ItemVenta> detalle = new ArrayList<>();
+        int op = 1;
+        while(op == 1){
         // solicitar informacion de id_celular
         System.out.println("\nIngrese el ID del celular:");
         
@@ -51,9 +57,58 @@ public class GestorItemVentas {
         // registrar en base de datos
         Optional<ItemVenta> x = iv.RegistrarIv(itemVenta);
         
-        return x.get();
+        // guardar en array
+        detalle.add(x.get());
+        op = Validador.validateMenu(1, 2, "Desea añadir otra compra? \n1. Si \n2. No.");
+        
+    }
+        return detalle;
     }
     
+    //actualizar
+    public ArrayList<ItemVenta> actualizarItemVenta(Venta venta){
+       //obtengo valores de itemventa
+        ArrayList<ItemVenta> detalles = iv.listarIV();
+  
+        // filtro a los que pertenecen a la venta en curso
+        ArrayList<ItemVenta> detallesObtenidos = detalles.stream()
+                .filter(dv -> dv.getId_venta().getId() == venta.getId())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (detallesObtenidos.isEmpty()) {
+             System.out.println("No hay items asociados a esta venta");}
+      
+        //actualizar cada item obtenido
+        detallesObtenidos.stream().forEach(d -> {
+            //solicitar informacion a actualizar 
+        
+             // solicitar informacion de id_celular
+
+                gcel.listarCelular();
+                System.out.println("\nIngrese el ID del celular:");
+                int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
+
+                System.out.println("\nIngrese la cantidad:");
+                int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
+                
+                
+                d.setCantidad(cantidad);
+                
+                iv.actualizarIV(d);
+                
+                
+        });
+        
+        
+        if(!detalles.isEmpty()) {
+        System.out.println("\n***** Items actualizados exitosamente *****");
+        detalles.forEach(d -> System.out.println(d));
+         }
+        return detallesObtenidos;
+        
+    }
+    
+    //listar
     public void listarItemVenta(){
         
         ArrayList<ItemVenta> itemVentas = iv.listarIV();
@@ -61,30 +116,14 @@ public class GestorItemVentas {
         imprimirTablaItemVentas(itemVentas);
     }
     
-    // buscar como asistente de otra funcion 
-    public Optional<ItemVenta> buscarItemVenta(){
-        
-        // valida que el id no sea negativo, ni que sea una letra
-        int id = Validador.validateID("\nIngresa el ID del detalle de venta:");
-        
-        Optional<ItemVenta> optItemVenta = iv.buscar(id);
-
-        return optItemVenta;
-    }
-       
-    // buscar como funcion principal 
-    public void buscarIV(){
+    
+    // buscar 
+    public ArrayList<ItemVenta> buscarIV(){
  
         int id = Validador.validateID("\nIngresa el ID del detalle de venta:");
-        Optional<ItemVenta> optItemVenta = iv.buscar(id);
-        
-        if (!Validador.validateResultSetItemVenta(optItemVenta)) {
-            return;
-        }
-        
-        ItemVenta itemVenta = optItemVenta.get();
-
-        System.out.println(itemVenta);
+        ArrayList<ItemVenta> detalles = Validador.validateResultSetItemVenta(id); 
+        detalles.forEach(d -> System.out.println(d));
+        return detalles;
     }
     
     // funciones para imprimir tablas 
@@ -135,7 +174,5 @@ public class GestorItemVentas {
         
         System.out.print(separador);
     }
-    
-
     
 }

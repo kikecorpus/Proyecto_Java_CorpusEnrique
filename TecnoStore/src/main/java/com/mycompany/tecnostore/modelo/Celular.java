@@ -107,8 +107,7 @@ public class Celular implements Cloneable{
      @Override
     public String toString() {
          return """
-               
-               *****************************
+               ======= Celular  ======= 
                Id:      %s
                Marca:    %s
                Modelo:   %s
@@ -116,7 +115,6 @@ public class Celular implements Cloneable{
                Gama:    %s
                Precio:  %s
                Stock:   %s
-               *****************************
                """.formatted(id,marca, modelo,sistema_operativo,gama,precio,stock);
     }
     

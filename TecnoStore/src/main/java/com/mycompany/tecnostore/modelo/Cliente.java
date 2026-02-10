@@ -88,7 +88,7 @@ public class Cliente implements Cloneable{
     @Override
     public String toString() {
          return """
-               *****************************
+               ======= Cliente  ======= 
                Id:          %s
                Nombre:      %s
                Identificacion:   %s

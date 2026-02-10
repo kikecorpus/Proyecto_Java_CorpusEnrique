@@ -5,9 +5,12 @@ import com.mycompany.tecnostore.controlador.VentaDAO;
 import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.modelo.Cliente;
 import com.mycompany.tecnostore.modelo.Venta;
+import static java.lang.String.valueOf;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
+import static javax.management.Query.value;
 import javax.swing.JOptionPane;
 
 public class GestorVentas {
@@ -15,10 +18,12 @@ public class GestorVentas {
     private VentaDAO v = new VentaDAO();
     
     private GestorClientes gc = new GestorClientes();
+    private ClienteDAO cdao = new ClienteDAO();
     
     // crud
     public Venta registrarVenta(){
         Optional<Venta> x;
+        
         do{
         // inicializar venta a llenar
         Venta venta = new Venta(); 
@@ -31,6 +36,10 @@ public class GestorVentas {
         
         int idCliente = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
+        //poblar cliente dentro de Venta
+        
+        Optional<Cliente> optCl = cdao.buscar(idCliente);
+
         // guardo Cliente solo con el id
         Cliente cliente = new Cliente();
         cliente.setId(idCliente);
@@ -50,16 +59,12 @@ public class GestorVentas {
         return x.get();
     }
     
-    public void actualizarVenta(){
+    public Venta actualizarVenta(){
         
-        // uso de la clase optional para validar si venta retorna vacio
-        Optional<Venta> optVenta = buscarVenta(); 
+        listarVenta();
+        int id = Validador.validateID("\nIngresa el ID de la venta:");
         
-        if (!Validador.validateResultSetVenta(optVenta)) {
-            return;
-        }
-        
-        Venta venta = optVenta.get();
+        Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
         
         Venta ventaBefore = (Venta) venta.clone(); // toca castear porque el .clone devuelve un object
         
@@ -67,48 +72,27 @@ public class GestorVentas {
         System.out.println("\n***** Usala de Referencia ******" + "\n" + venta);
        
         System.out.println("\nIngrese el ID del cliente:");
+         //listar clientes 
+         gc.listarCliente();
         int idCliente = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
         // Crear objeto Cliente solo con el ID
         Cliente cliente = new Cliente();
         cliente.setId(idCliente);
         
-        System.out.println("\nIngrese la fecha (formato: YYYY-MM-DD):");
-        String fecha = new Scanner(System.in).nextLine();
-        
-        System.out.println("\nIngrese el total:");
-        double total = Validador.validatePositiveDouble(new Scanner(System.in).nextDouble());
-        
+
+        String fecha = valueOf(Validador.validarFecha("Ingrese la fecha"));
+ 
         venta.setId_cliente(cliente);
         venta.setFecha(fecha);
-        venta.setTotal(total);
+       
         
-        v.actualizarV(venta, venta.getId());
+        v.actualizarV(venta);
         
         imprimirTablaComparativa(ventaBefore, venta);
+        
+        return venta;
     }
-    
-    public void eliminarVenta(){
-        
-        Optional<Venta> optVenta = buscarVenta(); 
-
-        if (!Validador.validateResultSetVenta(optVenta)) {
-            return;
-        }
-          
-        Venta venta = optVenta.get();
-           
-        System.out.println(venta);
-        int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la venta?", null, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        
-        if (op == 0) {
-            v.eliminarV(venta.getId());
-        } else if (op == JOptionPane.NO_OPTION) {
-            System.out.println("***** No se elimino la venta *****");
-        } else {
-            System.out.println("***** Operación cancelada *****");
-        }
-    }   
     
     public void listarVenta(){
         
@@ -117,29 +101,13 @@ public class GestorVentas {
         imprimirTablaVentas(ventas);
     }
     
-    // buscar como asistente de otra funcion 
-    public Optional<Venta> buscarVenta(){
-        
-        // valida que el id no sea negativo, ni que sea una letra
-        int id = Validador.validateID("\nIngresa el ID de la venta:");
-        
-        Optional<Venta> optVenta = v.buscar(id);
-
-        return optVenta;
-    }
-       
-    // buscar como funcion principal 
-    public void buscarVen(){
+   
+    // buscar 
+    public void buscarVenta(){
  
         int id = Validador.validateID("\nIngresa el ID de la venta:");
-        Optional<Venta> optVenta = v.buscar(id);
+        Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
         
-        if (!Validador.validateResultSetVenta(optVenta)) {
-            return;
-        }
-        
-        Venta venta = optVenta.get();
-
         System.out.println(venta);
     }
     
@@ -188,12 +156,12 @@ public class GestorVentas {
     
     private void imprimirTablaComparativa(Venta before, Venta after) {
 
-        System.out.println("------------------------------------------------------------------------------");
-        System.out.printf("| %-18s | %-15s | %-15s | %-15s   |\n", "Campo", "Antes", "Después", "Modificado");
-        System.out.println("------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------");
+        System.out.printf("| %-30s | %-30s | %-20s | %-2s|\n", "Campo", "Antes", "Después", "M");
+        System.out.println("----------------------------------------------------------------------------------------------");
 
         // ID Cliente
-        System.out.printf("| %-18s | %-15d | %-15d |%s\n",
+        System.out.printf("| %-30s | %-30d | %-20d |%-3s|\n",
                 "ID Cliente",
                 before.getId_cliente().getId(),
                 after.getId_cliente().getId(),
@@ -201,7 +169,7 @@ public class GestorVentas {
         );
 
         // Fecha
-        System.out.printf("| %-18s | %-15s | %-15s |%s\n",
+        System.out.printf("| %-30s | %-30s | %-20s |%-3s|\n",
                 "Fecha",
                 before.getFecha(),
                 after.getFecha(),
@@ -209,14 +177,36 @@ public class GestorVentas {
         );
 
         // Total
-        System.out.printf("| %-18s | %-15.2f | %-15.2f |%s\n",
+        System.out.printf("| %-30s | %-30.2f | %-20.2f |%-3s|\n",
                 "Total",
                 before.getTotal(),
                 after.getTotal(),
                 before.getTotal() != after.getTotal() ? "  *" : ""
         );
 
-        System.out.println("------------------------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------");
         System.out.println(" ---- '*' indica Campo modificado ---- ");
     }
+    
+    // eliminar no es optimo deberia de crearse un log, o inactivar el producto 
+    
+    /*public void eliminarVenta(){
+        
+        int id = Validador.validateID("\nIngresa el ID de la venta:");
+        Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
+           
+        System.out.println(venta);
+        int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar la venta?", null, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if (op == 0) {
+            v.eliminarV(venta.getId());
+        } else if (op == JOptionPane.NO_OPTION) {
+            System.out.println("***** No se elimino la venta *****");
+        } else {
+            System.out.println("***** Operación cancelada *****");
+        }
+    }   
+    
+    
+    */
 }

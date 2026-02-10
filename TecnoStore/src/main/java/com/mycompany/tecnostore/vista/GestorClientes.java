@@ -5,7 +5,6 @@ import com.mycompany.tecnostore.controlador.ClienteDAO;
 import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.modelo.Cliente;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -50,12 +49,9 @@ public class GestorClientes {
         
         // uso de la clase optional para validar si cel retorna vacio
 
-        Optional<Cliente> optCliente =  buscarCliente();
-        
-        if (!Validador.validateResultSetCliente(optCliente)) {
-             return;
-        }
-        Cliente cliente = optCliente.get();
+        int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
+        Cliente cliente = Validador.validateResultSetCliente(id); // valida que el cliente que existe no sea null o vacio
+
         
         Cliente clienteBefore = (Cliente) cliente.clone(); // toca castear porque el .clone devuelve un object
         
@@ -80,21 +76,15 @@ public class GestorClientes {
         cliente.setCorreo(correo);
         cliente.setTelefono(telefono);
 
-        c.actualizarCl(cliente, cliente.getId());
+        c.actualizarCl(cliente);
         
         imprimirComparacion(clienteBefore, cliente);
     }
     
     public void eliminarCliente(){
            // uso de la clase optional para validar si cel retorna vacio
-
-        Optional<Cliente> optCliente =  buscarCliente(); 
-        
-        if (!Validador.validateResultSetCliente(optCliente)) {
-             return;
-        }
-
-        Cliente cliente = optCliente.get();
+       int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
+       Cliente cliente = Validador.validateResultSetCliente(id); // valida que el cliente que existe no sea null o vacio
 
        System.out.println(cliente);
        int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
@@ -120,27 +110,12 @@ public class GestorClientes {
     
     
     //Buscar
-        // buscar como asistente de otra funcion 
-
-    public Optional<Cliente> buscarCliente(){
-        int id = Validador.validateID("\nIngresa el ID del cliente:");
-        
-        Optional<Cliente> optCliente= c.buscar(id);
-        return optCliente;
-
-        }
      // buscar como funcion principal 
         
-    public void buscarCl(){
+    public void buscarCliente(){
         
         int id = Validador.validateID("\nIngresa el ID del cliente:");
-        Optional<Cliente> optCliente= c.buscar(id);
-        
-        if (!Validador.validateResultSetCliente(optCliente)) {
-             return;
-        }
-        
-        Cliente cliente = optCliente.get();
+        Cliente cliente= Validador.validateResultSetCliente(id);
         
         System.out.println(cliente);
         

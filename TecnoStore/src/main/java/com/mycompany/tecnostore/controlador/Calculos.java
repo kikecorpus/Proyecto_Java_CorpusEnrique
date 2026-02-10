@@ -40,5 +40,10 @@ public class Calculos {
     
     // calculos de totales 
     
+    public static double calculoTotal (){
+    
+        return 123;
+    }
+    
     
 }

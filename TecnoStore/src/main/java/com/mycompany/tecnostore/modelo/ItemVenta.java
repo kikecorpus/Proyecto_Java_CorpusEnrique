@@ -68,10 +68,14 @@ public class ItemVenta {
     @Override
     public String toString() {
          return """
-               *****************************
+               ======= Detalle Venta  ======= 
                Id:          %s
-               Id Venta:      %s
-               Id Celular  %s
+                
+               %s
+                
+               %s
+               
+               ======= Info Venta ======= 
                Cantidad: %s
                Subtotal:    %s
                

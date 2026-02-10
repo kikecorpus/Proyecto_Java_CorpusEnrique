@@ -9,6 +9,7 @@ public class GestorMain {
     private GestorCelulares gCel = new  GestorCelulares();
     private GestorClientes gClient = new  GestorClientes();
     private VentaCompleta vc = new VentaCompleta();
+    private GestorVentas gVent = new GestorVentas();
         
     public  void menuCelular(){
         int opC;
@@ -34,7 +35,7 @@ public class GestorMain {
                case 2 -> {gCel.actualizarCelular();}
                case 3 -> {gCel.eliminarCelular(); }
                case 4 -> {gCel.listarCelular();}
-               case 5 -> {gCel.buscarCel();}
+               case 5 -> {gCel.buscarCelular();}
                case 6 -> {}
            }
         }while(opC != 6);
@@ -64,7 +65,7 @@ public class GestorMain {
                case 2 -> {gClient.actualizarCliente();}
                case 3 -> {gClient.eliminarCliente(); }
                case 4 -> {gClient.listarCliente();}
-               case 5 -> {gClient.buscarCl();}
+               case 5 -> {gClient.buscarCliente();}
                case 6 -> {}
            }
         }while(opC != 6);
@@ -74,28 +75,25 @@ public class GestorMain {
         int opC;
         do{
             System.out.println("""
-
                                =============================
                                **********  Ventas  *********
                                =============================
                                1.   Registrar Venta.
                                2.   Actualizar Venta.
-                               3.   Eliminar Venta.
-                               4.   Listar Ventas.
-                               5.   Buscar Venta por Id.
-                               6.   Regresar
+                               3.   Listar Ventas.
+                               4.   Buscar Venta por Id.
+                               5.   Regresar
 
                                =============================
                                """);
            opC = Validador.validateMenu(1, 6, "Ingrese la opcion que desea:");
 
            switch(opC){
-               case 1 -> {vc.realizarVenta();}
-              /* case 2 -> {gVent.actualizarVenta();}
-               case 3 -> {gVent.eliminarVenta(); }
-               case 4 -> {gVent.listarVenta();}
-               case 5 -> {gVent.buscarVen();}
-               case 6 -> {}*/
+               case 1 -> {vc.realizarVentaCompleta();}
+               case 2 -> {vc.actualizarVentaCompleta();}
+               case 3 -> {gVent.listarVenta();}
+               case 4 -> {gVent.buscarVenta();}
+               case 5 -> {}
            }
         }while(opC != 6);
     }
