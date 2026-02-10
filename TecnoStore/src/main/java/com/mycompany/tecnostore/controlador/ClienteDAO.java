@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -15,14 +16,13 @@ import java.util.Optional;
 
 public class ClienteDAO implements IntGestionarClientes{
     
-    ConexionDb con = new ConexionDb();
-    Connection conexion = con.conectar();
     
     @Override
     public void registrarCl(Cliente cliente) {
         String sql = "INSERT INTO cliente(nombre, identificacion, correo, telefono) VALUES(?,?,?,?)";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
             
             stmt.setString(1, cliente.getNombre());
             stmt.setString(2, cliente.getIdentificacion());
@@ -48,7 +48,8 @@ public class ClienteDAO implements IntGestionarClientes{
     public void actualizarCl(Cliente cliente, int id) {
         String sql = "UPDATE Cliente SET nombre=?, identificacion=?, correo=?, telefono=?  WHERE id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             cliente.setId(id);
             stmt.setString(1, cliente.getNombre());
@@ -70,15 +71,19 @@ public class ClienteDAO implements IntGestionarClientes{
     public void eliminarCl(int id) {
         String sql = "DELETE FROM Cliente where id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             
             stmt.executeUpdate();
 
+        }catch(SQLIntegrityConstraintViolationException e2){
+             System.out.println("**** No se puede eliminar porque tiene ventas registradas ****");
+        
         }catch(SQLException e){
-            e.printStackTrace();
-        }    
+            System.out.println("***** Error en eliminar de la base de datos *****");
+        }
     }
 
     @Override
@@ -87,7 +92,8 @@ public class ClienteDAO implements IntGestionarClientes{
         
         ArrayList<Cliente> clientes = new ArrayList<>();
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             ResultSet rs = stmt.executeQuery();
             
@@ -115,7 +121,8 @@ public class ClienteDAO implements IntGestionarClientes{
     
         String sql = "SELECT * FROM Cliente WHERE id=?";
         Cliente cliente = new  Cliente();
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             ResultSet rs= stmt.executeQuery();

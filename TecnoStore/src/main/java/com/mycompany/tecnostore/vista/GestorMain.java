@@ -90,7 +90,7 @@ public class GestorMain {
            opC = Validador.validateMenu(1, 6, "Ingrese la opcion que desea:");
 
            switch(opC){
-               case 1 -> {vc.flujoDeVenta();}
+               case 1 -> {vc.realizarVenta();}
               /* case 2 -> {gVent.actualizarVenta();}
                case 3 -> {gVent.eliminarVenta(); }
                case 4 -> {gVent.listarVenta();}

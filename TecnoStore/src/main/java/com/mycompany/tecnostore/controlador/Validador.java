@@ -5,11 +5,10 @@ import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.Cliente;
 import com.mycompany.tecnostore.modelo.ItemVenta;
 import com.mycompany.tecnostore.modelo.Venta;
-import com.mycompany.tecnostore.vista.GestorClientes;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Stream;
+
 
 
 public class Validador {

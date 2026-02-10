@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -14,8 +15,7 @@ import java.util.Optional;
 
 public class CelularDAO implements IntGestionarCelulares{
     
-    ConexionDb con = new ConexionDb();
-    Connection conexion = con.conectar();
+    
       
     //celulares (id, marca, modelo, sistema_operativo, gama, precio, stock)
 
@@ -25,7 +25,8 @@ public class CelularDAO implements IntGestionarCelulares{
         
         String sql = "INSERT INTO Celulares(marca, modelo, sistema_operativo, gama, precio, stock) VALUES(?,?,?,?,?,?)";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
+        try(Connection conexion = ConexionDb.getInstancia().conectar(); 
+            PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS ) ){//este ultimo parametro me retorna el id de la  statement
             
             stmt.setString(1, celular.getMarca());
             stmt.setString(2, celular.getModelo());
@@ -53,7 +54,8 @@ public class CelularDAO implements IntGestionarCelulares{
     public void actualizarC(Celular celular, int id) {
     String sql = "UPDATE Celulares SET marca=?, modelo=?, sistema_operativo=?, gama=?, precio= ?, stock= ?  WHERE id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+                PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setString(1, celular.getMarca());
             stmt.setString(2, celular.getModelo());
@@ -77,7 +79,8 @@ public class CelularDAO implements IntGestionarCelulares{
         
         String sql = "DELETE FROM Celulares where id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             int filas = stmt.executeUpdate();
@@ -87,8 +90,11 @@ public class CelularDAO implements IntGestionarCelulares{
         } else {
             System.out.println("No se encontró un celular con ese ID");
         }
+        }catch(SQLIntegrityConstraintViolationException e2){
+             System.out.println("**** No se puede eliminar porque tiene ventas registradas ****");
+        
         }catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("***** Error en eliminar de la base de datos *****");
         }
     }
 
@@ -99,7 +105,8 @@ public class CelularDAO implements IntGestionarCelulares{
         
         ArrayList<Celular> celulares = new ArrayList<>();
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             ResultSet rs = stmt.executeQuery();
             
@@ -130,7 +137,8 @@ public class CelularDAO implements IntGestionarCelulares{
     
         String sql = "SELECT * FROM Celulares where id=?";
         Celular cel = new Celular();
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             ResultSet rs= stmt.executeQuery();

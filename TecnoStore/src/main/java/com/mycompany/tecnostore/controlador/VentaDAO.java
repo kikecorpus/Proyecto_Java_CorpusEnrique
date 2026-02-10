@@ -6,15 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class VentaDAO implements IntGestionarVentas {
     
-    ConexionDb con = new ConexionDb();
-    Connection conexion = con.conectar();
-      
+   
     //ventas (id, id_cliente, fecha, total)
 
     //CRUD
@@ -23,7 +22,8 @@ public class VentaDAO implements IntGestionarVentas {
         
         String sql = "INSERT INTO Venta(id_cliente) VALUES(?)";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             
             stmt.setInt(1, venta.getId_cliente().getId()); // Solo se guarda el id del cliente
             stmt.executeUpdate();
@@ -49,7 +49,8 @@ public class VentaDAO implements IntGestionarVentas {
     public void actualizarV(Venta venta, int id) {
         String sql = "UPDATE Ventas SET id_cliente=?, fecha=?, total=? WHERE id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, venta.getId_cliente().getId()); // Solo guardamos el ID del cliente
             stmt.setString(2, venta.getFecha());
@@ -70,7 +71,8 @@ public class VentaDAO implements IntGestionarVentas {
         
         String sql = "DELETE FROM Ventas WHERE id=?";
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             int filas = stmt.executeUpdate();
@@ -80,8 +82,9 @@ public class VentaDAO implements IntGestionarVentas {
             } else {
                 System.out.println("No se encontró una venta con ese ID");
             }
-        }catch(SQLException e){
-            e.printStackTrace();
+        }
+        catch(SQLException e){
+            System.out.println("***** Error en eliminar de la base de datos *****");
         }
     }
 
@@ -92,7 +95,8 @@ public class VentaDAO implements IntGestionarVentas {
         
         ArrayList<Venta> ventas = new ArrayList<>();
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             ResultSet rs = stmt.executeQuery();
             
@@ -126,7 +130,8 @@ public class VentaDAO implements IntGestionarVentas {
         String sql = "SELECT * FROM Ventas WHERE id=?";
         Venta venta = new Venta();
         
-        try(PreparedStatement stmt = conexion.prepareStatement(sql)){
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
             
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
