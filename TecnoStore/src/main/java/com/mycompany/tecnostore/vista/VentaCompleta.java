@@ -19,7 +19,10 @@ public class VentaCompleta {
       
          // paso 1: registrar venta
          Venta venta = gv.registrarVenta();
-         
+          if(venta == null){
+             return;
+         }
+        
          //paso 2: registro de item venta
          ArrayList<ItemVenta> detalles = giv.registrarItemVenta(venta);
         

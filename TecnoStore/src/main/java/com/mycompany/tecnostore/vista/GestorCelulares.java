@@ -76,7 +76,9 @@ public class GestorCelulares  {
         // uso de la clase optional para validar si cel retorna vacio
          int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
          Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
-       
+         if(cel == null){
+             return;
+         }
         
         Celular celBefore = (Celular) cel.clone(); // toca castear porque el .clone devuelve un object
         
@@ -138,7 +140,9 @@ public class GestorCelulares  {
         
          int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
          Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
-
+         if(venta == null){
+             return null;
+         }
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
           // valida decicion del usuario pero no lo que ocurrio en database

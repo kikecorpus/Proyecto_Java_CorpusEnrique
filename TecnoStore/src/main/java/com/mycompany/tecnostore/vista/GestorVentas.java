@@ -61,6 +61,9 @@ public class GestorVentas {
         int id = Validador.validateID("\nIngresa el ID de la venta:");
         
         Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
+        if(venta == null){
+             return null;
+         }
         
         Venta ventaBefore = (Venta) venta.clone(); // toca castear porque el .clone devuelve un object
         
@@ -107,9 +110,7 @@ public class GestorVentas {
             System.out.println(" Celular Vacio Regresando ...");
         }else {
         System.out.println(venta);}
-        
-        }
-        
+
     }
     
     // funciones para imprimir tablas 

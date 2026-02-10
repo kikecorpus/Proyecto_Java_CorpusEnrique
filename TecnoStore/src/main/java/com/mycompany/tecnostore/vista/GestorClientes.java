@@ -51,7 +51,11 @@ public class GestorClientes {
 
         int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
         Cliente cliente = Validador.validateResultSetCliente(id); // valida que el cliente que existe no sea null o vacio
-
+        // opcion regresar
+         if(cliente == null){
+             return;
+         }
+        
         
         Cliente clienteBefore = (Cliente) cliente.clone(); // toca castear porque el .clone devuelve un object
         
@@ -85,7 +89,11 @@ public class GestorClientes {
            // uso de la clase optional para validar si cel retorna vacio
        int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
        Cliente cliente = Validador.validateResultSetCliente(id); // valida que el cliente que existe no sea null o vacio
-
+       // opcion regresar
+       if(cliente == null){
+             return ;
+         }
+       
        System.out.println(cliente);
        int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el cliente?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
        if (op == 0) {

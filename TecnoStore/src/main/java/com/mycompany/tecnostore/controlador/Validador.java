@@ -172,7 +172,7 @@ public class Validador {
             System.out.println("Presione el numeo 0 para salir");
             id = validateID("Ingrese nuevo id para Item venta");
             switch (id){
-                case 0 -> {return detalles;}
+                case 0 -> {return null;}
             }
         }
 

@@ -68,7 +68,8 @@ public class GestorItemVentas {
     public ArrayList<ItemVenta> actualizarItemVenta(Venta venta){
        //obtengo valores de itemventa
         ArrayList<ItemVenta> detalles = iv.listarIV();
-  
+        
+        
         // filtro a los que pertenecen a la venta en curso
         ArrayList<ItemVenta> detallesObtenidos = detalles.stream()
                 .filter(dv -> dv.getId_venta().getId() == venta.getId())
@@ -121,11 +122,13 @@ public class GestorItemVentas {
  
         int id = Validador.validateID("\nIngresa el ID del detalle de venta:");
         ArrayList<ItemVenta> detalles = Validador.validateResultSetItemVenta(id); 
-        detalles.forEach(d -> System.out.println(d));
-        if(detalles.isEmpty()){
-            System.out.println("Regresando");
-        }
+       
+        if(detalles == null ){
+            System.out.println(" detalles Vacio, Regresando ...");
+        }else {
+         detalles.forEach(d -> System.out.println(d));    
         
+        }
         return detalles;
     }
     
