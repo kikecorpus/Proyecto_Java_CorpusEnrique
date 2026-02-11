@@ -92,7 +92,7 @@ public class GestorMain {
                case 1 -> {vc.realizarVentaCompleta();}
                case 2 -> {vc.actualizarVentaCompleta();}
                case 3 -> {gVent.listarVenta();}
-               case 4 -> {gVent.buscarVenta();}
+               case 4 -> {vc.buscarVentaCompleta();}
                case 5 -> {System.out.println("Regresando ...");}
            }
         }while(opC != 5);

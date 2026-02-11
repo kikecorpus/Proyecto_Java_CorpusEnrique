@@ -115,15 +115,21 @@ public class GestorVentas {
     
    
     // buscar 
-    public void buscarVenta(){
+    public Venta buscarVenta(){
  
         int id = Validador.validateID("\nIngresa el ID de la venta:");
         Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
            if(venta == null ){
             System.out.println(" Celular Vacio Regresando ...");
         }else {
+       
+        Cliente cliente = Validador.validateResultSetCliente(venta.getId_cliente().getId());
+        
+        venta.setId_cliente(cliente);
+               
+               
         System.out.println(venta);}
-
+        return venta;   
     }
     
     // funciones para imprimir tablas 

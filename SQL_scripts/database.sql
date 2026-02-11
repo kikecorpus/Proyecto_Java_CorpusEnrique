@@ -44,13 +44,14 @@ CREATE TABLE Venta(
 
 	id INT AUTO_INCREMENT,
 	id_cliente INT,
-	fecha DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP, 
+	fecha DATETIME NOT NULL  DEFAULT CURRENT_DATE, 
 	total DOUBLE(10,2) DEFAULT 0,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_cliente) REFERENCES Cliente(id)
 	);
 
-
+ALTER TABLE Venta
+fecha  DATETIME NOT NULL  DEFAULT CURRENT_TIMESTAMP;
 
 -- -----------------------------------------------------
 -- Table detalle venta
@@ -61,7 +62,7 @@ CREATE TABLE Detalle_ventas(
 	id_venta INT NOT NULL,
 	id_celular INT NOT NULL,
 	cantidad INT NOT NULL, 
-	subtotal DOUBLE NOT NULL, 
+	subtotal DOUBLE (10,2) NOT NULL, 
 	
 	PRIMARY KEY (id),
   	FOREIGN KEY (id_venta)
@@ -70,37 +71,8 @@ CREATE TABLE Detalle_ventas(
  	REFERENCES  Celulares(id)
 );
 
--- trigger para actualizar total en la tabla venta cada vez que se inserte un detalle venta 
-DELIMITER $$
 
-CREATE TRIGGER actualizar_total_venta
-AFTER INSERT ON Detalle_ventas
-FOR EACH ROW
-BEGIN
-    UPDATE Venta
-    SET total = total + NEW.subtotal
-    WHERE id = NEW.id_venta;
-END$$
-
-DELIMITER ;
-
--- trigger para actualizar stock 
-DELIMITER $$
-
-CREATE TRIGGER trg_actualizar_stock
-AFTER INSERT ON detalle_ventas
-FOR EACH ROW
-BEGIN
-    UPDATE celular
-    SET stock = stock - NEW.cantidad
-    WHERE id = NEW.id_celular;
-END$$
-
-DELIMITER ;
-
-
-
-
+select * From Venta;
 
 
 

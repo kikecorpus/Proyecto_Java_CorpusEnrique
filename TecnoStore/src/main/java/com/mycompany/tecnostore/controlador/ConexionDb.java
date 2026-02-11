@@ -24,7 +24,7 @@ public class ConexionDb{
          try {
            
             this.conexion = DriverManager.getConnection(url, user, pass );
-            System.out.println("***** Conexión establecida exitosamente *****");
+            
          } catch (SQLException e) {
             System.err.println("***** Error al conectar con la base de datos *****");
             e.printStackTrace();

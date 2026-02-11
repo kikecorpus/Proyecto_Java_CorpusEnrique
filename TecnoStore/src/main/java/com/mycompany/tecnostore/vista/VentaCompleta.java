@@ -69,7 +69,15 @@ public class VentaCompleta {
       
   }
   
-  
+  public void buscarVentaCompleta(){
+      Venta venta = gv.buscarVenta();
+      ArrayList<ItemVenta> detalles = giv.buscarIV(venta);
+      
+      if(detalles == null ){
+        System.out.println(" detalles Vacio, Regresando ...");
+        return;}
+  }
+          
   public void imprimirFactura(Venta venta, ArrayList<ItemVenta> detalles, double IVA, double total) {
       
         

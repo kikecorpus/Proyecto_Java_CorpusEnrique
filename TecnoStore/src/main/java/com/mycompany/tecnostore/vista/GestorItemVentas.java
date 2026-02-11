@@ -135,11 +135,12 @@ public class GestorItemVentas {
     
     
     // buscar 
-    public ArrayList<ItemVenta> buscarIV(){
+    public ArrayList<ItemVenta> buscarIV(Venta venta){
+        
+        ArrayList<ItemVenta> detalles = iv.listarIV();
+        
+        detalles.stream().filter(d -> d.getId_venta().getId() == venta.getId()).collect(Collectors.toCollection(ArrayList:: new));
  
-        int id = Validador.validateID("\nIngresa el ID del detalle de venta:");
-        ArrayList<ItemVenta> detalles = Validador.validateResultSetItemVenta(id); 
-       
         if(detalles == null ){
             System.out.println(" detalles Vacio, Regresando ...");
         }else {
@@ -147,6 +148,8 @@ public class GestorItemVentas {
         
         }
         return detalles;
+        
+        
     }
     
     // funciones para imprimir tablas 

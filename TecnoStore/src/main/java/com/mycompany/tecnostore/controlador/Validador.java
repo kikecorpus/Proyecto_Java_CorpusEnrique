@@ -97,6 +97,8 @@ public class Validador {
     }
 
     //Validacion ResultSet 
+    // valida que exista en la base de datos 
+    // Mas adelant me di cuenta que puedo usar estras funciones para simular lefjoin de sql en java
     
     public static Celular validateResultSet(int id) {
 
