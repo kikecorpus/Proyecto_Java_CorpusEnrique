@@ -140,8 +140,8 @@ public class GestorCelulares  {
         
          int id = Validador.validateID("Ingrese id: "); // valida que id n o sea negativo ni letra
          Celular cel = Validador.validateResultSet(id); // valida que el cliente que existe no sea null o vacio
-         if(venta == null){
-             return null;
+         if(cel == null){
+             return;
          }
           System.out.println(cel);
           int op = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el celular?", null, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);

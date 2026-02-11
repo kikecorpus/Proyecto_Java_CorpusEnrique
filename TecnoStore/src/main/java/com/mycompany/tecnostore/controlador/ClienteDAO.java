@@ -37,7 +37,7 @@ public class ClienteDAO implements IntGestionarClientes{
            if (rs.next()) {
                cliente.setId(rs.getInt(1));
            }
-            System.out.println("****** Registro exitoso ******");
+            
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class ClienteDAO implements IntGestionarClientes{
             
             stmt.executeUpdate();// activa el codigo sql
 
-            System.out.println("****** Actualizacion exitosa ******");
+           
         }catch(SQLException e){
             e.printStackTrace();
         }

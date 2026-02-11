@@ -37,7 +37,6 @@ public class VentaDAO implements IntGestionarVentas {
             
             Optional<Venta> optVenta = Optional.of(venta);
             
-            System.out.println("****** Registro exitoso ******");
             return optVenta;
         }catch(SQLException e){
             e.printStackTrace();
@@ -59,7 +58,7 @@ public class VentaDAO implements IntGestionarVentas {
             stmt.setInt(4, venta.getId());
             stmt.executeUpdate();
 
-            System.out.println("****** Actualizacion exitosa ******");
+            
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -70,7 +69,7 @@ public class VentaDAO implements IntGestionarVentas {
         
         String sql = "SELECT * FROM Venta";
         
-        ArrayList<Venta> ventas = new ArrayList<>();
+        ArrayList<Venta>ventas = new ArrayList<>();
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
             PreparedStatement stmt = conexion.prepareStatement(sql)){

@@ -19,14 +19,21 @@ public class VentaCompleta {
       
          // paso 1: registrar venta
          Venta venta = gv.registrarVenta();
+            // opcion regresar
           if(venta == null){
+              System.out.println("Venta no se pudo registrar");
+              System.out.println("Regresando ...");
              return;
          }
         
          //paso 2: registro de item venta
          ArrayList<ItemVenta> detalles = giv.registrarItemVenta(venta);
+         
+         // paso 3 Actualizar valores 
+         
+         
         
-         // paso 3: informar al usuario
+         // paso 4: informar al usuario
         
          System.out.println("***** Venta exitosa *****");
          
@@ -40,6 +47,17 @@ public class VentaCompleta {
   public void actualizarVentaCompleta(){
       //actualiza info de la clase venta y la retorna
        Venta venta = gv.actualizarVenta();
+       
+       if(venta == null){
+              System.out.println("Venta no se pudo actualizar");
+              System.out.println("Regresando ...");
+             return;
+         }
+       
+       System.out.println("=============================");
+       System.out.println("****  Detalle de Ventas  **** ");
+       System.out.println("=============================");
+
        //para referencia luego  detalles de la venta
        ArrayList<ItemVenta> detalles = giv.actualizarItemVenta(venta);
            

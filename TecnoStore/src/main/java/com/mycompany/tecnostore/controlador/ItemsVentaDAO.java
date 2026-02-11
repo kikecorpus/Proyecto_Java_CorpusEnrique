@@ -39,7 +39,7 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
             detalles = buscar(itemVenta.getId());
             
             Optional<ItemVenta> optItemVenta = Optional.of(detalles.getFirst());
-            System.out.println("****** Registro exitoso ******");
+            
             return optItemVenta;
             
         }catch(SQLException e){
@@ -59,7 +59,7 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
             stmt.setInt(2, itemVenta.getCantidad());
             stmt.setDouble(3, itemVenta.getId());
 
-            System.out.println("****** Actualizacion exitosa ******");
+            
         }catch(SQLException e){
             e.printStackTrace();
         }

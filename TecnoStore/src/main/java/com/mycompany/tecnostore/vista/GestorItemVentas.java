@@ -91,7 +91,7 @@ public class GestorItemVentas {
                 System.out.println("\nIngrese la cantidad:");
                 int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
                 
-                
+                d.
                 d.setCantidad(cantidad);
                 
                 iv.actualizarIV(d);
@@ -109,11 +109,13 @@ public class GestorItemVentas {
     }
     
     //listar
-    public void listarItemVenta(){
+    public ArrayList<ItemVenta>  listarItemVenta(){
         
         ArrayList<ItemVenta> itemVentas = iv.listarIV();
         
         imprimirTablaItemVentas(itemVentas);
+        
+        return itemVentas;
     }
     
     

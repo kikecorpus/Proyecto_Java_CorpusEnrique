@@ -43,7 +43,7 @@ public class CelularDAO implements IntGestionarCelulares{
            if (rs.next()) {
                celular.setId(rs.getInt(1));
            }
-            System.out.println("****** Registro exitoso ******");
+            
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class CelularDAO implements IntGestionarCelulares{
             stmt.setInt(7, celular.getId());
             stmt.executeUpdate();
             
-            System.out.println("****** Actualizacion exitosa ******");
+            
         }catch(SQLException e){
             e.printStackTrace();
         }

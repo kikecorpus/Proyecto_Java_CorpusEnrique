@@ -1,6 +1,9 @@
 
 package com.mycompany.tecnostore.controlador;
 
+import com.mycompany.tecnostore.modelo.ItemVenta;
+import java.util.ArrayList;
+
 
 public class Calculos {
     
@@ -40,10 +43,14 @@ public class Calculos {
     
     // calculos de totales 
     
-    public static double calculoTotal (){
+    public static double calcularTotal(ArrayList<ItemVenta> detalles){
+        
+        double total = detalles.stream().mapToDouble(ItemVenta::getSubtotal).sum();
+
+        return total;
     
-        return 123;
     }
+
     
     
 }

@@ -57,8 +57,12 @@ public class GestorVentas {
     
     public Venta actualizarVenta(){
         
-        listarVenta();
+        ArrayList<Venta> vacio = listarVenta();
+        if(vacio.isEmpty()){
+            System.out.println("Presione 0 para volver");
+        }
         int id = Validador.validateID("\nIngresa el ID de la venta:");
+        
         
         Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
         if(venta == null){
@@ -76,10 +80,8 @@ public class GestorVentas {
         int idCliente = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
         // Crear objeto Cliente solo con el ID
-        Cliente cliente = new Cliente();
-        cliente.setId(idCliente);
-        
-
+        Cliente cliente = Validador.validateResultSetCliente(idCliente);
+       
         String fecha = valueOf(Validador.validarFecha("Ingrese la fecha"));
  
         venta.setId_cliente(cliente);
@@ -93,11 +95,14 @@ public class GestorVentas {
         return venta;
     }
     
-    public void listarVenta(){
+    public ArrayList<Venta> listarVenta(){
         
         ArrayList<Venta> ventas = v.listarV();
         
         imprimirTablaVentas(ventas);
+        
+        return ventas;
+        
     }
     
    
