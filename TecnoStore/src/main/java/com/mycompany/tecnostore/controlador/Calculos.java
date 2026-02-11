@@ -10,6 +10,7 @@ public class Calculos {
     static CelularDAO cdao = new CelularDAO();
     
     // calulos de subtotal con StreamApi 
+    //evita llamados a la base de datos 
     
     public static double calcularSubtotal(ArrayList<ItemVenta> detalles){
         
@@ -26,16 +27,16 @@ public class Calculos {
         return iva;
     }
        
-    public static  double calcularSubtotalIva(double subtotal, double iva){
+    public static double calcularSubtotalIva(double subtotal, double iva){
     
         double subIva = subtotal + iva;
         
         return subIva;
     }
     
-    public static double calcularSubtotalIva(int cantidad, int id){
+    public static double calcularSubtotalIva(ArrayList<ItemVenta> detalles){
         
-        double subtotal  = calcularSubtotal();
+        double subtotal  = calcularSubtotal(detalles);
         double iva = calularIva(subtotal);
         double subIva = subtotal + iva ;
         
