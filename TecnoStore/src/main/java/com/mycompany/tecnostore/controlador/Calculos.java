@@ -9,10 +9,11 @@ public class Calculos {
     
     static CelularDAO cdao = new CelularDAO();
     
-    // calulos de subtotal
-    public static double calcularSubtotal(int cantidad,int id){
+    // calulos de subtotal con StreamApi 
+    
+    public static double calcularSubtotal(ArrayList<ItemVenta> detalles){
         
-        double subtotal = cdao.buscar(id).get().getPrecio() * cantidad;
+          double subtotal = detalles.stream().mapToDouble(x -> x.getId_celular().getPrecio() * x.getCantidad()).sum();
 
         return subtotal;
     
@@ -34,14 +35,14 @@ public class Calculos {
     
     public static double calcularSubtotalIva(int cantidad, int id){
         
-        double subtotal  = calcularSubtotal(cantidad, id);
+        double subtotal  = calcularSubtotal();
         double iva = calularIva(subtotal);
         double subIva = subtotal + iva ;
         
         return subIva;
     }
     
-    // calculos de totales 
+    // calculos de total con StreamApi 
     
     public static double calcularTotal(ArrayList<ItemVenta> detalles){
         

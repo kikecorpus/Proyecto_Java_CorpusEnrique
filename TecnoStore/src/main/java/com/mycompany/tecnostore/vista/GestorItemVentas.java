@@ -91,11 +91,10 @@ public class GestorItemVentas {
                 System.out.println("\nIngrese la cantidad:");
                 int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
                 
-                d.
+                d.setId_celular(Validador.validateResultSet(idCelular));
                 d.setCantidad(cantidad);
                 
-                iv.actualizarIV(d);
-                
+                iv.actualizarIV(d);  
                 
         });
         
