@@ -78,7 +78,7 @@ public class Venta implements Cloneable{
                %s
                =======  Info  ======
                Fecha:   %s
-               total: %s
+               total: %.2f%n
              
                """.formatted(id,id_cliente, fecha,total);
     }

@@ -77,7 +77,7 @@ public class ItemVenta {
                
                ======= Info Venta ======= 
                Cantidad: %s
-               Subtotal:    %s
+               Subtotal + IVA:    %2f%n
                
                """.formatted(id,id_venta, id_celular, cantidad,subtotal);
     }

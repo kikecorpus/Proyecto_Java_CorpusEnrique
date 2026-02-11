@@ -38,16 +38,12 @@ public class VentaCompleta {
          double totalConIva = Calculos.calcularTotalConIva(detalles);
 
          //enviar nuevos valores a la base de datos
-         venta.setTotal(total);
+         venta.setTotal(totalConIva);
          vdao.actualizarV(venta);
        
          // paso 4: informar al usuario
         
-         System.out.println("***** Venta exitosa *****");
-         
-         System.out.print("Factura: \n"+ venta);
-         
-         detalles.forEach(d -> System.out.println(d));
+         imprimirFactura(venta, detalles, IVA, totalConIva);
          
     } 
   
@@ -72,5 +68,34 @@ public class VentaCompleta {
       
       
   }
+  
+  
+  public void imprimirFactura(Venta venta, ArrayList<ItemVenta> detalles, double IVA, double total) {
+      
+        
+        
+        System.out.println("=========== FACTURA ===========");
+        System.out.println("Venta N°: " + venta.getId());
+        System.out.println("Fecha   : " + venta.getFecha());
+        System.out.println("--------------------------------");
+        System.out.println("Cliente : " + venta.getId_cliente().getNombre());
+        System.out.println("Correo  : " + venta.getId_cliente().getCorreo());
+        System.out.println("--------------------------------");
 
+        detalles.forEach(d -> {
+            System.out.printf(
+                "%s %s x%d  $%.2f%n",
+                d.getId_celular().getMarca(),
+                d.getId_celular().getModelo(),
+                d.getCantidad(),
+                d.getSubtotal()
+            );
+        });
+
+        System.out.println("--------------------------------");
+        System.out.printf("Subtotal: $%.2f%n", total);
+        System.out.printf("Iva: $%.2f%n", IVA);
+        System.out.printf("TOTAL: $%.2f%n", venta.getTotal());
+        System.out.println("================================");
+    }
 }

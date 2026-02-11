@@ -22,7 +22,7 @@ public class GestorVentas {
     // crud
     public Venta registrarVenta(){
         Optional<Venta> x;
-        Venta VentaConFecha = null;
+        
         do{
         // inicializar venta a llenar
         Venta venta = new Venta(); 
@@ -46,32 +46,38 @@ public class GestorVentas {
         
         // registrar en base de datos y obtener venta 
          x = v.registrarV(venta);
+         //actualizar fecha obtenida sql a java
+         Venta VentaConFecha = Validador.validateResultSetVenta(x.get().getId());
+         x.get().setFecha(VentaConFecha.getFecha());
          
-        VentaConFecha = Validador.validateResultSetVenta(x.get().getId());
-         
-        if(VentaConFecha == null ){
+        if(x.isEmpty()){
             System.out.println("Error en registrar la venta Intente nuevamente");
+            
          }
+        } while(x.isEmpty());
         
-        } while(VentaConFecha == null );
-        
-        return VentaConFecha;
+        return x.get();
     }
     
     public Venta actualizarVenta(){
         
         ArrayList<Venta> vacio = listarVenta();
+        
         if(vacio.isEmpty()){
             System.out.println("Presione 0 para volver");
         }
         int id = Validador.validateID("\nIngresa el ID de la venta:");
-        
-        
+
         Venta venta = Validador.validateResultSetVenta(id); // valida que el cliente que existe no sea null o vacio
         if(venta == null){
              return null;
          }
         
+          //buscar cliente para actualizar venta 
+        Cliente cliente = Validador.validateResultSetCliente(venta.getId_cliente().getId());
+        venta.setId_cliente(cliente);
+        
+        //clonar
         Venta ventaBefore = (Venta) venta.clone(); // toca castear porque el .clone devuelve un object
         
         System.out.println("\nInformacion de la Venta con id: #" + venta.getId());
@@ -82,8 +88,8 @@ public class GestorVentas {
          gc.listarCliente();
         int idCliente = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
-        // Crear objeto Cliente solo con el ID
-        Cliente cliente = Validador.validateResultSetCliente(idCliente);
+        // Actualiza a  nuevo Cliente  
+        cliente = Validador.validateResultSetCliente(idCliente);
        
         String fecha = valueOf(Validador.validarFecha("Ingrese la fecha"));
  

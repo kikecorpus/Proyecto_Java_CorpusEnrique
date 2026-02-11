@@ -30,13 +30,13 @@ public class VentaDAO implements IntGestionarVentas {
             // obtener id generado
             ResultSet rs = stmt.getGeneratedKeys(); 
             if (rs.next()) {
-                venta.setId(rs.getInt(1));
-
+                venta.setId(rs.getInt(1));  
             }
             
             Optional<Venta> optVenta = Optional.of(venta);
             
             return optVenta;
+            
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class VentaDAO implements IntGestionarVentas {
 
     @Override
     public void actualizarV(Venta venta) {
-        String sql = "UPDATE Venta SET id_cliente=?, total=? WHERE id=?";
+        String sql = "UPDATE Venta SET id_cliente=?, fecha = ?, total=? WHERE id=?";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
             PreparedStatement stmt = conexion.prepareStatement(sql)){
@@ -54,6 +54,7 @@ public class VentaDAO implements IntGestionarVentas {
             stmt.setInt(1, venta.getId_cliente().getId()); // Solo guardamos el ID del cliente
             stmt.setString(2, venta.getFecha());
             stmt.setDouble(3, venta.getTotal());
+            stmt.setInt(4, venta.getId()); 
             stmt.executeUpdate();
 
             

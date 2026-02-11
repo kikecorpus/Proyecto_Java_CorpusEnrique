@@ -71,7 +71,7 @@ public class GestorMain {
         }while(opC != 6);
     }
 
-    void menuVenta() {
+    public void menuVenta() {
         int opC;
         do{
             System.out.println("""
@@ -95,6 +95,6 @@ public class GestorMain {
                case 4 -> {gVent.buscarVenta();}
                case 5 -> {System.out.println("Regresando ...");}
            }
-        }while(opC != 6);
+        }while(opC != 5);
     }
 }
