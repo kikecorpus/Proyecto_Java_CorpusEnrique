@@ -2,6 +2,7 @@
 package com.mycompany.tecnostore.vista;
 
 import com.mycompany.tecnostore.controlador.Calculos;
+import com.mycompany.tecnostore.controlador.CelularDAO;
 import com.mycompany.tecnostore.controlador.ItemsVentaDAO;
 import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.controlador.VentaDAO;
@@ -19,6 +20,7 @@ public class GestorItemVentas {
     private ItemsVentaDAO iv = new ItemsVentaDAO();
     private VentaDAO vdao = new VentaDAO();
     private GestorCelulares gcel = new GestorCelulares();
+    private CelularDAO celdao = new CelularDAO();
     
 // crud
     // registrar
@@ -35,16 +37,32 @@ public class GestorItemVentas {
       
         System.out.println("\nIngrese el ID del celular:");
         
-        gcel.listarCelular();
+        ArrayList<Celular> celulares = gcel.listarCelular(); // retorna celulares con stock
         
         int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
+        // validar que no seleciones un id sin stock 
+        boolean bool = Validador.validateCelularListarStock(celulares, idCelular);
+        if(bool = false){
+            return detalle;
+        }
         
         // poblar celular completo en itemventa
         Celular celular = Validador.validateResultSet(idCelular);
         
+
         // solicitar info  cantidad
         System.out.println("\nIngrese la cantidad:");
         int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
+         
+        // validar que la cantidad no supere al stock 
+        
+        boolean bool2 = Validador.validateStockSuficiente(celular, cantidad);
+        if(bool = false){
+            return detalle;
+        }
+        
+        
+        
         
         // calcular subtotal 
         
@@ -52,16 +70,17 @@ public class GestorItemVentas {
         
         // construir itemVenta
         itemVenta.setId_venta(venta);
+        celular.setStock(celular.getStock()-cantidad); // actualizar stock en java
         itemVenta.setId_celular(celular);
         itemVenta.setCantidad(cantidad);
         itemVenta.setSubtotal(subtotal);
         // guardar en array
         detalle.add(itemVenta);
         
-        
         // registrar en base de datos
         Optional<ItemVenta> x = iv.RegistrarIv(itemVenta);
-        
+        //Disminuir Stock 
+        celdao.actualizarC(celular); // actualizar stock base de datos
         op = Validador.validateMenu(1, 2, "Desea añadir otra compra? \n1. Si \n2. No.");
         
     }
@@ -74,42 +93,61 @@ public class GestorItemVentas {
        //obtengo valores de itemventa
         ArrayList<ItemVenta> detalles = iv.listarIV();
         
-        
         // filtro a los que pertenecen a la venta en curso
         ArrayList<ItemVenta> detallesObtenidos = detalles.stream()
                 .filter(dv -> dv.getId_venta().getId() == venta.getId())
                 .collect(Collectors.toCollection(ArrayList::new));
-        
+        // mostrar detalles de venta
         detallesObtenidos.forEach(d -> {
                                         d.setId_celular(Validador.validateResultSet(d.getId_celular().getId()));
-                                        System.out.println(d); 
+                                        
+                                        System.out.println(d);            
+                                        Celular celularViejo = d.getId_celular(); // obtener Celular viejo
+                                        celularViejo.setStock(celularViejo.getStock() + d.getCantidad()); //sumar devolucion en java 
+                                        d.setId_celular(celularViejo);
+                                        celdao.actualizarC(celularViejo);//actualizacion en base de datos
                                         });
-
+        //le mando el stock ya asumiendo que hara un cambio,
+        //y en caso ponga el mismo ps vuelve y los suma
+        
+        //valida que existan
         if (detallesObtenidos.isEmpty()) {
              System.out.println("No hay items asociados a esta venta");}
-      
+        
         //actualizar cada item obtenido
         detallesObtenidos.stream().forEach(d -> {
+            
+             
             //solicitar informacion a actualizar 
-        
+            
              // solicitar informacion de id_celular
                 System.out.println(" ------------ Actualizar Detalle de venta id: #" + d.getId_celular().getId() + " ------------");
-                gcel.listarCelular();
-                System.out.println("\nIngrese el ID del celular:");
+               
+                ArrayList<Celular> celulares = gcel.listarCelular(); // celulares con stock 
+      
+                System.out.println("\nIngrese el ID del celular:"); // solicita id del celuldar
                 int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
 
-                System.out.println("\nIngrese la cantidad:");
+                System.out.println("\nIngrese la cantidad:"); // solicita la cantidad nuevaque se vendio
                 int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
                 
-                d.setId_celular(Validador.validateResultSet(idCelular));
+                // actualiza celular nuevo 
+                Celular celularNuevo = Validador.validateResultSet(idCelular);
+                
+                celularNuevo.setStock(celularNuevo.getStock() - cantidad);//actuliza stock nuevo
+                d.setId_celular(celularNuevo);
                 d.setCantidad(cantidad);
+
                 //actualizar sub total de cada detalle 
                 double subtotal = cantidad * d.getId_celular().getPrecio();
                 d.setSubtotal(subtotal);
-                
+      
+            
                 iv.actualizarIV(d);  
+                celdao.actualizarC(celularNuevo);//actulizar celular nuevo en base de datos
                 
         });
+       
         //actualizar venta con nuevos subtotales
         venta.setTotal(Calculos.calcularTotalConIva(detallesObtenidos));
         vdao.actualizarV(venta);

@@ -7,6 +7,7 @@ import com.mycompany.tecnostore.modelo.CategoriaGama;
 import com.mycompany.tecnostore.modelo.Celular;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
 
@@ -155,15 +156,16 @@ public class GestorCelulares  {
           }
     }   
     
-    public void listarCelular(){
+    public ArrayList<Celular> listarCelular(){
         
         ArrayList<Celular> celulares =  c.listarC();
         
-        // celulares.forEach( cel -> System.out.println(cel)); // para impresion directa
+        ArrayList<Celular> celularesConStock = celulares.stream().filter(c -> c.getStock() > 0)
+                .collect(Collectors.toCollection(ArrayList::new));   
         
-        //celulares.stream().forEach(c -> System.out.println(c)); // para trabajar con un flujo 
+        imprimirTablaCelulares(celularesConStock); // funcion para tabla que se ajusta a la casilla // reto en clase 
         
-        imprimirTablaCelulares(celulares); // funcion para tabla que se ajusta a la casilla // reto en clase 
+        return celularesConStock;
     }
     
     

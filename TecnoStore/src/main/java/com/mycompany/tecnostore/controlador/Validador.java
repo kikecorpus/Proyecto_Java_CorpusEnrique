@@ -241,9 +241,28 @@ public class Validador {
             return identificacion;
             */
         }
+    // celular 
     
+    public static boolean validateCelularListarStock(ArrayList<Celular> celulares, int idCelular){
+    
+        boolean bool =  celulares.stream().anyMatch(c -> c.getId() == idCelular);
+        if(bool == false){
+            System.out.println("Celular no esta en la lista ");
+            return false;
+        }
+        
+        return true;
+    }
     // validar fecha 
     
+    public static boolean validateStockSuficiente(Celular celular, int cantidad){
+        
+        if(celular.getStock() < cantidad){
+            System.out.println("****** No hay suficientes stock ******");
+            return false;
+        }
+    return true;
+    }
     public static LocalDate validarFecha(String mensaje) {
 
     Scanner sc = new Scanner(System.in);

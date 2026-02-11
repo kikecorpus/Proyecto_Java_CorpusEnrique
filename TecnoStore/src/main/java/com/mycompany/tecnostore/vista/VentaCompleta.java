@@ -45,6 +45,7 @@ public class VentaCompleta {
         
          imprimirFactura(venta, detalles, IVA, totalConIva);
          
+         
     } 
   
   public void actualizarVentaCompleta(){
