@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -47,7 +46,7 @@ public class VentaDAO implements IntGestionarVentas {
 
     @Override
     public void actualizarV(Venta venta) {
-        String sql = "UPDATE Venta SET id_cliente=?, fecha=?, total=? WHERE id=?";
+        String sql = "UPDATE Venta SET id_cliente=?, total=? WHERE id=?";
         
         try(Connection conexion = ConexionDb.getInstancia().conectar();
             PreparedStatement stmt = conexion.prepareStatement(sql)){
@@ -55,7 +54,6 @@ public class VentaDAO implements IntGestionarVentas {
             stmt.setInt(1, venta.getId_cliente().getId()); // Solo guardamos el ID del cliente
             stmt.setString(2, venta.getFecha());
             stmt.setDouble(3, venta.getTotal());
-            stmt.setInt(4, venta.getId());
             stmt.executeUpdate();
 
             

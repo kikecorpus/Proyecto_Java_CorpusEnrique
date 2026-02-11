@@ -22,7 +22,7 @@ public class GestorVentas {
     // crud
     public Venta registrarVenta(){
         Optional<Venta> x;
-        
+        Venta VentaConFecha = null;
         do{
         // inicializar venta a llenar
         Venta venta = new Venta(); 
@@ -43,16 +43,19 @@ public class GestorVentas {
         // construir venta
         venta.setId_cliente(cliente);
         
+        
         // registrar en base de datos y obtener venta 
          x = v.registrarV(venta);
-        
-        if(x.isEmpty()){
+         
+        VentaConFecha = Validador.validateResultSetVenta(x.get().getId());
+         
+        if(VentaConFecha == null ){
             System.out.println("Error en registrar la venta Intente nuevamente");
-            
          }
-        } while(x.isEmpty());
         
-        return x.get();
+        } while(VentaConFecha == null );
+        
+        return VentaConFecha;
     }
     
     public Venta actualizarVenta(){
@@ -86,7 +89,6 @@ public class GestorVentas {
  
         venta.setId_cliente(cliente);
         venta.setFecha(fecha);
-       
         
         v.actualizarV(venta);
         

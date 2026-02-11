@@ -6,41 +6,26 @@ import java.util.ArrayList;
 
 
 public class Calculos {
-    
-    static CelularDAO cdao = new CelularDAO();
+    private static final double IVA = 0.19;
+   
     
     // calulos de subtotal con StreamApi 
     //evita llamados a la base de datos 
     
-    public static double calcularSubtotal(ArrayList<ItemVenta> detalles){
-        
-          double subtotal = detalles.stream().mapToDouble(x -> x.getId_celular().getPrecio() * x.getCantidad()).sum();
-
-        return subtotal;
-    
-    }
-    
     public static double calularIva(double subtotal){
     
-        double iva = subtotal * 0.19;
+        double iva = subtotal * IVA;
         
         return iva;
     }
-       
-    public static double calcularSubtotalIva(double subtotal, double iva){
     
-        double subIva = subtotal + iva;
+    public static double calcularTotalConIva(ArrayList<ItemVenta> detalles){
         
-        return subIva;
-    }
-    
-    public static double calcularSubtotalIva(ArrayList<ItemVenta> detalles){
+        double total  = calcularTotal(detalles);
+        double iva = calularIva(total);
+        double totalIva = total + iva ;
         
-        double subtotal  = calcularSubtotal(detalles);
-        double iva = calularIva(subtotal);
-        double subIva = subtotal + iva ;
-        
-        return subIva;
+        return totalIva;
     }
     
     // calculos de total con StreamApi 

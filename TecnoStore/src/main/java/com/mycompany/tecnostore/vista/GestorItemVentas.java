@@ -25,42 +25,47 @@ public class GestorItemVentas {
     public ArrayList<ItemVenta> registrarItemVenta(Venta venta){
         
         // inicializar itemVenta a llenar
-        ItemVenta itemVenta = new ItemVenta(); 
         ArrayList<ItemVenta> detalle = new ArrayList<>();
         int op = 1;
+        // para registrar varios detalles de venta en una misma venta
         while(op == 1){
+        ItemVenta itemVenta = new ItemVenta();  
+        
         // solicitar informacion de id_celular
+      
         System.out.println("\nIngrese el ID del celular:");
         
         gcel.listarCelular();
         
         int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
-        // Crear objeto Celular solo con el ID
+        // poblar celular completo en itemventa
         Celular celular = Validador.validateResultSet(idCelular);
         
         // solicitar info  cantidad
         System.out.println("\nIngrese la cantidad:");
         int cantidad = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
         
-        // llenar subtotal
+        // calcular subtotal 
         
-        double subtotal = Calculos.calcularSubtotalIva(cantidad, celular.getId());
+        double subtotal= cantidad * celular.getPrecio();
         
         // construir itemVenta
         itemVenta.setId_venta(venta);
         itemVenta.setId_celular(celular);
         itemVenta.setCantidad(cantidad);
         itemVenta.setSubtotal(subtotal);
+        // guardar en array
+        detalle.add(itemVenta);
+        
         
         // registrar en base de datos
         Optional<ItemVenta> x = iv.RegistrarIv(itemVenta);
         
-        // guardar en array
-        detalle.add(x.get());
         op = Validador.validateMenu(1, 2, "Desea añadir otra compra? \n1. Si \n2. No.");
         
     }
+       
         return detalle;
     }
     

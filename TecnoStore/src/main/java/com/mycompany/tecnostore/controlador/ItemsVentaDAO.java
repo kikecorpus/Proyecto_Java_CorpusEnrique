@@ -70,7 +70,7 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
 
             String sql = "SELECT * FROM Detalle_ventas WHERE id=?";
             ArrayList<ItemVenta> detalles = new ArrayList<>();
-            ItemVenta itemVenta = new ItemVenta();
+            
 
             try(Connection conexion = ConexionDb.getInstancia().conectar();
                 PreparedStatement stmt = conexion.prepareStatement(sql)){
@@ -79,14 +79,17 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
-
+                    ItemVenta itemVenta = new ItemVenta();
+                    
                     // Crear objeto Venta solo con el ID
                     Venta venta = new Venta();
                     venta.setId(rs.getInt("id_venta"));
 
                     // Crear objeto Celular solo con el ID
                     Celular celular = new Celular();
-                    celular.setId(rs.getInt("id_celular"));
+                    celular.setId(rs.getInt("id_celular")
+                            
+                    );
                     
                     itemVenta.setId(rs.getInt("id"));
                     itemVenta.setId_venta(venta);
@@ -99,12 +102,12 @@ public class ItemsVentaDAO implements IntGestionarItemVentas{
                     if(detalles.isEmpty()){
                         System.out.println("\n****** La venta no tiene ítems asociados ******");
                     }
-                    
-                    return detalles;
                 }
-
+                
+                return detalles;
+                
             }catch(SQLException e){
-                System.out.println("Erro en encontral al usuario");
+                System.out.println("Error en encontral al usuario");
             }
             return detalles;
     }    

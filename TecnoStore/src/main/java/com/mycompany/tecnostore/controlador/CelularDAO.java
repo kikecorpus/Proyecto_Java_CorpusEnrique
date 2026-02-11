@@ -154,6 +154,7 @@ public class CelularDAO implements IntGestionarCelulares{
             Optional<Celular> optCel = Optional.ofNullable(cel); 
             
             return optCel;
+            
             } else { // VALIDA QUE EXISTA
                  System.out.println("\n****** Celular no encontrado en la base de datos ******");
              }

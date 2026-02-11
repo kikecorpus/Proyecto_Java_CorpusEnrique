@@ -103,18 +103,18 @@ public class Validador {
         CelularDAO cdao = new CelularDAO();
 
         Optional<Celular> optC =  cdao.buscar(id);
-
+        
         while (optC == null || optC.isEmpty()) {
             System.out.println("***** El id no coincide por favor ingrese otro  *****");
             System.out.println("Presione el numeo 0 para salir");
             id = validateID("Ingrese nuevo id para continuar");
             optC =  cdao.buscar(id);
             switch (id){
-                case 0 -> {return optC.orElse(null);}
+                case 0 -> {return null;}
             }
                
         }
-        
+        System.out.println(optC.get());
         return optC.get();
     }
     

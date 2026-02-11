@@ -1,7 +1,10 @@
 package com.mycompany.tecnostore.vista;
 
 
+import com.mycompany.tecnostore.controlador.Calculos;
+import com.mycompany.tecnostore.controlador.ItemsVentaDAO;
 import com.mycompany.tecnostore.controlador.Validador;
+import com.mycompany.tecnostore.controlador.VentaDAO;
 import com.mycompany.tecnostore.modelo.ItemVenta;
 import com.mycompany.tecnostore.modelo.Venta;
 import java.util.ArrayList;
@@ -13,10 +16,10 @@ public class VentaCompleta {
   private  GestorVentas gv = new GestorVentas();
   private  GestorItemVentas giv = new GestorItemVentas();
   
-
+//patron facade
   public void realizarVentaCompleta(){
-      
-      
+          VentaDAO vdao = new VentaDAO();
+          ItemsVentaDAO ivdao = new ItemsVentaDAO();
          // paso 1: registrar venta
          Venta venta = gv.registrarVenta();
             // opcion regresar
@@ -30,9 +33,14 @@ public class VentaCompleta {
          ArrayList<ItemVenta> detalles = giv.registrarItemVenta(venta);
          
          // paso 3 Actualizar valores 
-         
-         
-        
+         double total = Calculos.calcularTotal(detalles);
+         double IVA = Calculos.calularIva(total);
+         double totalConIva = Calculos.calcularTotalConIva(detalles);
+
+         //enviar nuevos valores a la base de datos
+         venta.setTotal(total);
+         vdao.actualizarV(venta);
+       
          // paso 4: informar al usuario
         
          System.out.println("***** Venta exitosa *****");
@@ -40,7 +48,6 @@ public class VentaCompleta {
          System.out.print("Factura: \n"+ venta);
          
          detalles.forEach(d -> System.out.println(d));
-         
          
     } 
   
