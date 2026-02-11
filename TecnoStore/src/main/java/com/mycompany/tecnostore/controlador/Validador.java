@@ -114,7 +114,7 @@ public class Validador {
             }
                
         }
-        System.out.println(optC.get());
+        
         return optC.get();
     }
     

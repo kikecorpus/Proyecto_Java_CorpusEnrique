@@ -170,7 +170,7 @@ public class GestorVentas {
     }
     
     private void imprimirTablaComparativa(Venta before, Venta after) {
-
+        System.out.println("\n----------------------  Resultados de Actualizazcion ---------------------- ");
         System.out.println("----------------------------------------------------------------------------------------------");
         System.out.printf("| %-30s | %-30s | %-20s | %-2s|\n", "Campo", "Antes", "Después", "M");
         System.out.println("----------------------------------------------------------------------------------------------");
@@ -200,7 +200,7 @@ public class GestorVentas {
         );
 
         System.out.println("----------------------------------------------------------------------------------------------");
-        System.out.println(" ---- '*' indica Campo modificado ---- ");
+        System.out.println(" ---- '*' indica Campo modificado ----  \n");
     }
     
     // eliminar no es optimo deberia de crearse un log, o inactivar el producto 

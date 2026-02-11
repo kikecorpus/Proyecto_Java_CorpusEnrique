@@ -70,16 +70,13 @@ public class ItemVenta {
          return """
                ======= Detalle Venta  ======= 
                Id:          %s
-                
-               %s
-                
-               %s
                
-               ======= Info Venta ======= 
+               =======    Producto    =======
+               %s
                Cantidad: %s
-               Subtotal + IVA:    %2f%n
+               Subtotal + IVA:    %.2f%n
                
-               """.formatted(id,id_venta, id_celular, cantidad,subtotal);
+               """.formatted(id, id_celular, cantidad,subtotal);
     }
     
 }

@@ -79,6 +79,11 @@ public class GestorItemVentas {
         ArrayList<ItemVenta> detallesObtenidos = detalles.stream()
                 .filter(dv -> dv.getId_venta().getId() == venta.getId())
                 .collect(Collectors.toCollection(ArrayList::new));
+        
+        detallesObtenidos.forEach(d -> {
+                                        d.setId_celular(Validador.validateResultSet(d.getId_celular().getId()));
+                                        System.out.println(d); 
+                                        });
 
         if (detallesObtenidos.isEmpty()) {
              System.out.println("No hay items asociados a esta venta");}
@@ -88,7 +93,7 @@ public class GestorItemVentas {
             //solicitar informacion a actualizar 
         
              // solicitar informacion de id_celular
-
+                System.out.println(" ------------ Actualizar Detalle de venta id: #" + d.getId_celular().getId() + " ------------");
                 gcel.listarCelular();
                 System.out.println("\nIngrese el ID del celular:");
                 int idCelular = Validador.validatePositiveInt(new Scanner(System.in).nextInt());
@@ -98,15 +103,21 @@ public class GestorItemVentas {
                 
                 d.setId_celular(Validador.validateResultSet(idCelular));
                 d.setCantidad(cantidad);
+                //actualizar sub total de cada detalle 
+                double subtotal = cantidad * d.getId_celular().getPrecio();
+                d.setSubtotal(subtotal);
                 
                 iv.actualizarIV(d);  
                 
         });
+        //actualizar venta con nuevos subtotales
+        venta.setTotal(Calculos.calcularTotalConIva(detallesObtenidos));
+        vdao.actualizarV(venta);
+        System.out.println("********** total actualizado a: $" + venta.getTotal());
         
-        
-        if(!detalles.isEmpty()) {
+        if(!detallesObtenidos.isEmpty()) {
         System.out.println("\n***** Items actualizados exitosamente *****");
-        detalles.forEach(d -> System.out.println(d));
+        detallesObtenidos.forEach(d -> System.out.println(d));
          }
         return detallesObtenidos;
         
