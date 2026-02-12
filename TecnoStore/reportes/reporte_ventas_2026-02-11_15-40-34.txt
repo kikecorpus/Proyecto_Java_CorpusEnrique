@@ -1,0 +1,91 @@
+===============================
+    REPORTE DE VENTAS
+    Fecha: 11/02/2026 15:40
+===============================
+
+Venta #15
+Cliente: enrique corpus 
+Fecha: 2026-02-10 20:48:02
+Total: $0.00
+
+Venta #16
+Cliente: Dayana Pinzon 
+Fecha: 2026-02-11 07:31:49
+Total: $0.00
+
+Venta #17
+Cliente: enrique corpus 
+Fecha: 2026-02-11 08:53:36
+Total: $0.00
+
+Venta #18
+Cliente: Dayana Pinzon 
+Fecha: 2026-02-11 09:17:42
+Total: $0.00
+
+Venta #19
+Cliente: enrique corpus 
+Fecha: 2026-02-11 09:21:22
+Total: $0.00
+
+Venta #20
+Cliente: enrique corpus 
+Fecha: 2026-02-11 09:32:46
+Total: $0.00
+
+Venta #21
+Cliente: Dayana Pinzon 
+Fecha: 2026-02-11 09:33:13
+Total: $0.00
+
+Venta #22
+Cliente: enrique corpus 
+Fecha: 2026-02-11 09:37:20
+Total: $0.00
+
+Venta #23
+Cliente: enrique corpus 
+Fecha: 2026-02-11 10:01:25
+Total: $0.00
+
+Venta #24
+Cliente: enrique corpus 
+Fecha: 2026-02-11 10:09:29
+Total: $0.00
+
+Venta #25
+Cliente: enrique corpus 
+Fecha: 2026-02-11 10:42:47
+Total: $0.00
+
+Venta #26
+Cliente: enrique corpus 
+Fecha: 2026-02-11 10:49:18
+Total: $0.00
+
+Venta #27
+Cliente: enrique corpus 
+Fecha: 2026-02-11 11:04:52
+Total: $0.00
+
+Venta #28
+Cliente: Dayana Pinzon 
+Fecha: 2025-01-01 00:00:00
+Total: $2,380,000.00
+
+Venta #29
+Cliente: Dayana Pinzon 
+Fecha: 2025-01-02 00:00:00
+Total: $4,760,000.00
+
+Venta #30
+Cliente: enrique corpus 
+Fecha: 2025-01-01 00:00:00
+Total: $11,900,000.00
+
+-------------------------------
+RESUMEN:
+Total Ventas: 16
+Monto Total: $19,040,000.00
+Venta Promedio: $1,190,000.00
+===============================

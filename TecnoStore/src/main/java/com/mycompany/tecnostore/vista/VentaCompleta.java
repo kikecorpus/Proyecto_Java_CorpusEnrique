@@ -83,7 +83,7 @@ public class VentaCompleta {
       
         
         
-        System.out.println("=========== FACTURA ===========");
+        System.out.println("\n=========== FACTURA ===========");
         System.out.println("Venta N°: " + venta.getId());
         System.out.println("Fecha   : " + venta.getFecha());
         System.out.println("--------------------------------");
@@ -105,6 +105,6 @@ public class VentaCompleta {
         System.out.printf("Subtotal: $%.2f%n", total);
         System.out.printf("Iva: $%.2f%n", IVA);
         System.out.printf("TOTAL: $%.2f%n", venta.getTotal());
-        System.out.println("================================");
+        System.out.println("================================\n");
     }
 }

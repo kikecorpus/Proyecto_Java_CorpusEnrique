@@ -10,6 +10,7 @@ public class GestorMain {
     private GestorClientes gClient = new  GestorClientes();
     private VentaCompleta vc = new VentaCompleta();
     private GestorVentas gVent = new GestorVentas();
+    private GestorReportes gr = new GestorReportes();
         
     public  void menuCelular(){
         int opC;
@@ -82,7 +83,8 @@ public class GestorMain {
                                2.   Actualizar Venta.
                                3.   Listar Ventas.
                                4.   Buscar Venta por Id.
-                               5.   Regresar
+                               5.   Generar Reportes.
+                               6.   Regresar
 
                                =============================
                                """);
@@ -93,8 +95,11 @@ public class GestorMain {
                case 2 -> {vc.actualizarVentaCompleta();}
                case 3 -> {gVent.listarVenta();}
                case 4 -> {vc.buscarVentaCompleta();}
-               case 5 -> {System.out.println("Regresando ...");}
+               case 5 -> {gr.menuReportes();}
+               case 6 -> {System.out.println("Regresando ...");}
            }
-        }while(opC != 5);
+        }while(opC != 6);
     }
+    
+    
 }

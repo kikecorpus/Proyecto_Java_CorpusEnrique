@@ -185,15 +185,24 @@ public class Validador {
 
     //validacion CLiente
     
-    public static String validateCorreo(String correo){
-        
+    public static String validateFormatoCorreo(String correo){
+
         while(!correo.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")){
-            System.out.println("****** correo no valido *****");
-            System.out.println("Ingrese nuevamente el correo");
-            correo = new Scanner(System.in).nextLine();
+
+           System.out.println("****** correo no valido *****");
+           System.out.println("Ingrese nuevamente el correo");
+           correo = new Scanner(System.in).nextLine();   
         }
         return correo;
+    }
+            
+    public static boolean validateCorreoExistente(String correo){
+        ClienteDAO c = new ClienteDAO();
+        ArrayList<Cliente> clientes = c.listarCl();
         
+        boolean bool = clientes.stream().anyMatch(x -> x.getCorreo().equalsIgnoreCase(correo));
+            
+        return bool;
     }
     
     public static String validarIdentificacion(String identificacion) {

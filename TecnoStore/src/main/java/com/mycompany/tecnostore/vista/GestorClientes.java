@@ -29,8 +29,18 @@ public class GestorClientes {
         }
         
         System.out.println("\nIngrese Correo:");
-        String correo =  Validador.validateCorreo(new Scanner(System.in).nextLine());
+        String correo =  Validador.validateFormatoCorreo(new Scanner(System.in).nextLine());
+        boolean bool = Validador.validateCorreoExistente(correo);
+         
+        while(bool == true){
+            System.out.println("***** Correo ya pertenece a otro cliente ***** ");
+            System.out.println("Ingrese un correo diferente:  ");
+            correo = Validador.validateFormatoCorreo(new Scanner(System.in).nextLine());
+            bool = Validador.validateCorreoExistente(correo);
+        } 
         
+                
+                
         System.out.println("\nIngrese telefono:");
         String telefono= new Scanner(System.in).nextLine();
   
@@ -42,8 +52,10 @@ public class GestorClientes {
         cliente.setTelefono(telefono);
         
         // registrar en base de dato
-        c.registrarCl(cliente);
-    }
+        
+            c.registrarCl(cliente) ;
+         
+        }
         
     public void actualizarCliente(){
         
