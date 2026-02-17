@@ -1,3 +1,4 @@
+
 package com.mycompany.tecnostore.controlador;
 
 import com.mycompany.tecnostore.modelo.Celular;
@@ -155,7 +156,7 @@ public class ReporteUtils {
             return false;
         }
     }
-
+     
     public static boolean generarReportePorFecha(ArrayList<Venta> ventas, String fecha) {
         
         // Filtrar ventas por fecha
@@ -212,68 +213,7 @@ public class ReporteUtils {
     }
 
     //analisis
-    public static void analizarStockBajo() {
-        CelularDAO celularDAO = new CelularDAO();
-        ArrayList<Celular> todosCelulares = celularDAO.listarC();
-        
-        // Filtrar celulares con stock bajo
-        ArrayList<Celular> stockBajo = new ArrayList<>();
-        for (Celular cel : todosCelulares) {
-            if (cel.getStock() < 5) {
-                stockBajo.add(cel);
-            }
-        }
-        
-        System.out.println("\n===============================================");
-        System.out.println("    ANALISIS: CELULARES CON STOCK BAJO");
-        System.out.println("    (Menos de 5 unidades)");
-        System.out.println("===============================================\n");
-        
-        if (stockBajo.isEmpty()) {
-            System.out.println("*** Todos los productos tienen stock suficiente ***\n");
-            return;
-        }
-        
-        // Calcular anchos de columna
-        int anchoMarca = "MARCA".length();
-        int anchoModelo = "MODELO".length();
-        int anchoStock = "STOCK".length();
-        int anchoEstado = "ESTADO".length();
-        
-        for (Celular cel : stockBajo) {
-            anchoMarca = Math.max(anchoMarca, cel.getMarca().length());
-            anchoModelo = Math.max(anchoModelo, cel.getModelo().length());
-        }
-        
-        // Formato de tabla
-        String formato = "| %-4s | %-" + anchoMarca + "s | %-" + anchoModelo + 
-                        "s | %-" + anchoStock + "s | %-" + anchoEstado + "s |\n";
-        
-        String separador = "+" + "-".repeat(6) + "+" + "-".repeat(anchoMarca + 2) + 
-                          "+" + "-".repeat(anchoModelo + 2) + "+" + "-".repeat(anchoStock + 2) + 
-                          "+" + "-".repeat(anchoEstado + 2) + "+\n";
-        
-        // Imprimir tabla
-        System.out.print(separador);
-        System.out.printf(formato, "ID", "MARCA", "MODELO", "STOCK", "ESTADO");
-        System.out.print(separador);
-        
-        for (Celular cel : stockBajo) {
-            String estado = cel.getStock() == 0 ? "AGOTADO" : "CRITICO";
-            System.out.printf(formato, 
-                cel.getId(),
-                cel.getMarca(),
-                cel.getModelo(),
-                cel.getStock(),
-                estado
-            );
-        }
-        
-        System.out.print(separador);
-        System.out.println("\nTotal productos con stock bajo: " + stockBajo.size());
-        System.out.println("*** Recomendacion: Reabastecer inventario ***\n");
-    }
-
+    
     public static void analizarTop3MasVendidos() {
         ItemsVentaDAO itemsDAO = new ItemsVentaDAO();
         CelularDAO celularDAO = new CelularDAO();
@@ -486,5 +426,198 @@ public class ReporteUtils {
         
         return meses[mes - 1] + " " + ano;
     }
+    
+    
+    
+    // rubrica del examen 
+    
+    public static boolean generarReporteCelular(ArrayList<Celular> celularsito) {
+        
+        // Crear nombre sugerido para el archivo
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String nombreSugerido = "reporte_StockBajo_" + ahora.format(formatter) + ".txt";
+        
+        // Abrir dialogo para seleccionar ubicación
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar Reporte de Ventas");
+        fileChooser.setSelectedFile(new File(nombreSugerido));
+        
+        // Filtro para solo mostrar archivos .txt
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+        fileChooser.setFileFilter(filtro);
+        
+        // Mostrar diálogo
+        int resultado = fileChooser.showSaveDialog(null);
+        
+        // Si el usuario canceló
+        if (resultado != JFileChooser.APPROVE_OPTION) {
+            System.out.println("Operación cancelada por el usuario");
+            return false;
+        }
+        
+        // Obtener archivo seleccionado
+        File archivoSeleccionado = fileChooser.getSelectedFile();
+        
+        // Asegurar que tenga extensión .txt
+        String rutaArchivo = archivoSeleccionado.getAbsolutePath();
+        if (!rutaArchivo.toLowerCase().endsWith(".txt")) {
+            rutaArchivo += ".txt";
+            archivoSeleccionado = new File(rutaArchivo);
+        }
+        
+        // Verificar si el archivo ya existe
+        if (archivoSeleccionado.exists()) {
+            int opcion = JOptionPane.showConfirmDialog(
+                null,
+                "El archivo ya existe. ¿Desea reemplazarlo?",
+                "Confirmar sobrescritura",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+            
+            if (opcion != JOptionPane.YES_OPTION) {
+                System.out.println("Operación cancelada");
+                return false;
+            }
+        }
+        
+        // Generar el reporte
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoSeleccionado))) {
+            
+            // Encabezado
+            writer.write("===============================\n");
+            writer.write("    REPORTE DE BAJO STOCK \n");
+            writer.write("    Fecha: " + ahora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) + "\n");
+            writer.write("===============================\n\n");
+            
+            // Variables para resumen
+            
+            
+            // Recorrer cada venta
+            for (Celular cel : celularsito) {
+                
+                // Escribir información de la venta
+                writer.write("Celular #" + cel.getId()+ "\n");
+                writer.write("Marca: " + cel.getMarca() + "\n");
+                writer.write("Modelo: " + cel.getModelo() + "\n");
+                writer.write("Gama: " + cel.getGama()+ "\n");
+                writer.write("Sistema op: " + cel.getSistema_operativo()+ "\n");
+                writer.write("Stock: " + cel.getStock()+ "\n");
+                writer.write("Precio: $" + String.format("%,.2f", cel.getPrecio()) + "\n");
+                writer.write("\n");
+            }
+ 
+            writer.write("===============================\n");
+            
+            // Mostrar mensaje de éxito
+            System.out.println("\nReporte generado exitosamente:");
+            System.out.println(archivoSeleccionado.getAbsolutePath());
+            
+            // Mostrar diálogo de éxito
+            JOptionPane.showMessageDialog(
+                null,
+                "Reporte generado exitosamente:\n" + archivoSeleccionado.getAbsolutePath(),
+                "Reporte Generado",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            // Preguntar si desea abrir el archivo
+            int opcionAbrir = JOptionPane.showConfirmDialog(
+                null,
+                "¿Desea abrir el archivo ahora?",
+                "Abrir archivo",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+            
+            if (opcionAbrir == JOptionPane.YES_OPTION) {
+                abrirArchivo(archivoSeleccionado);
+            }
+            
+            return true;
+            
+        } catch (IOException e) {
+            System.out.println("Error al generar el reporte: " + e.getMessage());
+            
+            JOptionPane.showMessageDialog(
+                null,
+                "Error al generar el reporte:\n" + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            
+            return false;
+        }
+    }
+    
+    private static void  imprimirStockBajo(ArrayList<Celular> stockBajo){
+    
+    System.out.println("\n===============================================");
+        System.out.println("    ANALISIS: CELULARES CON STOCK BAJO");
+        System.out.println("    (Menos de 5 unidades)");
+        System.out.println("===============================================\n");
+        
+        if (stockBajo.isEmpty()) {
+            System.out.println("*** Todos los productos tienen stock suficiente ***\n");
+            return;
+        }
+        
+        // Calcular anchos de columna
+        int anchoMarca = "MARCA".length();
+        int anchoModelo = "MODELO".length();
+        int anchoStock = "STOCK".length();
+        int anchoEstado = "ESTADO".length();
+        
+        for (Celular cel : stockBajo) {
+            anchoMarca = Math.max(anchoMarca, cel.getMarca().length());
+            anchoModelo = Math.max(anchoModelo, cel.getModelo().length());
+        }
+        
+        // Formato de tabla
+        String formato = "| %-4s | %-" + anchoMarca + "s | %-" + anchoModelo + 
+                        "s | %-" + anchoStock + "s | %-" + anchoEstado + "s |\n";
+        
+        String separador = "+" + "-".repeat(6) + "+" + "-".repeat(anchoMarca + 2) + 
+                          "+" + "-".repeat(anchoModelo + 2) + "+" + "-".repeat(anchoStock + 2) + 
+                          "+" + "-".repeat(anchoEstado + 2) + "+\n";
+        
+        // Imprimir tabla
+        System.out.print(separador);
+        System.out.printf(formato, "ID", "MARCA", "MODELO", "STOCK", "ESTADO");
+        System.out.print(separador);
+        
+        
+        stockBajo.forEach(cel -> { 
+            String estado = cel.getStock() == 0 ? "AGOTADO" : "CRITICO";
+            System.out.printf(formato, 
+                cel.getId(),
+                cel.getMarca(),
+                cel.getModelo(),
+                cel.getStock(),
+                estado
+            );
+        
+        });
+        
+      
+        System.out.print(separador);
+        System.out.println("\nTotal productos con stock bajo: " + stockBajo.size());
+        System.out.println("*** Recomendacion: Reabastecer inventario ***\n");
+    }
+    
+    public static void analizarStockBajo() {
+        CelularDAO celularDAO = new CelularDAO();
+        
+        // Filtrar celulares con stock bajo
+        ArrayList<Celular> stockBajo = celularDAO.stockBajo();
+       
+        //imprimir
+        imprimirStockBajo(stockBajo);
+        
+        generarReporteCelular(stockBajo);
+    }
+
 }
+    
     

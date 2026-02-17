@@ -1,9 +1,11 @@
 package com.mycompany.tecnostore.vista;
 
+import com.mycompany.tecnostore.controlador.CelularDAO;
 import com.mycompany.tecnostore.controlador.ClienteDAO;
 import com.mycompany.tecnostore.controlador.ReporteUtils;
 import com.mycompany.tecnostore.controlador.Validador;
 import com.mycompany.tecnostore.controlador.VentaDAO;
+import com.mycompany.tecnostore.modelo.Celular;
 import com.mycompany.tecnostore.modelo.Cliente;
 import com.mycompany.tecnostore.modelo.Venta;
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ public class GestorReportes {
     
     private VentaDAO ventaDAO = new VentaDAO();
     private ClienteDAO clienteDAO = new ClienteDAO();
+    private CelularDAO celularDAO = new CelularDAO();
     
    
     public void generarReporteGeneral() {
@@ -108,7 +111,8 @@ public class GestorReportes {
                                =============================
                                1.   Reporte General (Todas las ventas)
                                2.   Reporte por Fecha
-                               3.   Regresar
+                               3.   Reporte Stock Bajo
+                               4.   Regresar
                                =============================
                                """);
             
@@ -117,11 +121,50 @@ public class GestorReportes {
             switch (op) {
                 case 1 -> generarReporteGeneral();
                 case 2 -> generarReportePorFecha();
-                case 3 -> System.out.println("Regresando...");
+                case 3 -> generarReporteCelular();
+                case 4 -> System.out.println("Regresando...");
             }
             
         } while (op != 3);
     }
     
+    
+    public void generarReporteCelular() {
+        
+        System.out.println("\n========== Generar Reporte de Stock Bajo ==========");
+        
+        ArrayList<Celular> celular = celularDAO.stockBajo();
+        
+        if (celular.isEmpty()) {
+            System.out.println("No hay Celulares con stock bajo para generar reporte");
+            
+            JOptionPane.showMessageDialog(
+                null,
+                "No hay celulares con stock bajo para generar reporte",
+                "Sin datos",
+                JOptionPane.WARNING_MESSAGE
+            );
+            
+            return;
+        }
+        
+    
+        System.out.println("\n?Total de Celulares con stock bajo para el reporte: " + celular.size());
+        
+        // Mostrar confirmación
+        int opcion = JOptionPane.showConfirmDialog(
+            null,
+            "Se generará un reporte con " + celular.size() + " venta(s).\n¿Continuar?",
+            "Confirmar generación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (opcion == JOptionPane.YES_OPTION) {
+            ReporteUtils.generarReporteCelular(celular);
+        } else {
+            System.out.println("Generación de reporte cancelada");
+        }
+    }
     
 }

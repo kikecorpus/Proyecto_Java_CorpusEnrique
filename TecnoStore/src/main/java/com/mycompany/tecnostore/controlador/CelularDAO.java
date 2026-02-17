@@ -165,4 +165,38 @@ public class CelularDAO implements IntGestionarCelulares{
         return Optional.empty();
     };
     
+   
+    public ArrayList<Celular> stockBajo() {
+        
+        String sql = "SELECT * FROM Celulares WHERE stock <= 5";
+        
+        ArrayList<Celular> celulares = new ArrayList<>();
+        
+        try(Connection conexion = ConexionDb.getInstancia().conectar();
+            PreparedStatement stmt = conexion.prepareStatement(sql)){
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+               
+                Celular cel = new Celular(rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            CategoriaGama.valueOf(rs.getString(5)),
+                            rs.getDouble(6),
+                            rs.getInt(7));
+                
+                celulares.add(cel);
+            
+            }
+            return celulares;
+        
+        } catch (SQLException ex) {
+            System.getLogger(CelularDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        return celulares;
+    }
+    
 }
